@@ -1,0 +1,41 @@
+
+
+--    || is used for concatenation  
+
+SELECT * FROM emp_str
+output: 
+EMPNO FIRST_NAME LAST_NAME  EMAIL_ID                                                    
+---------- ---------- ---------- ------------------------------------------------------------
+         1 John       Milton     John.Milton@mycompany.com                                   
+         2 Harry      Potter     Harry.Potter@mycompany.com                                  
+         3 James      Brian      James.Brian@mycompany.com         
+
+-- Display the records Lastname , Firstname = Milton, John
+
+SELECT LAST_NAME||FIRST_NAME FROM emp_str
+
+output: 
+LAST_NAME||FIRST_NAM
+--------------------
+MiltonJohn
+PotterHarry
+BrianJames
+
+
+SELECT LAST_NAME||','||FIRST_NAME FROM emp_str
+LAST_NAME||','||FIRST
+---------------------
+Milton,John
+Potter,Harry
+Brian,James
+
+-- display full name column: 
+
+SELECT LAST_NAME||','||FIRST_NAME full_name FROM emp_str
+
+output: 
+FULL_NAME            
+---------------------
+Milton,John
+Potter,Harry
+Brian,James
