@@ -1,0 +1,11 @@
+-- Find all the employees, whose name has "A" in first or 2nd position from the emp table
+
+SELECT * FROM emp WHERE ename LIKE 'A%' OR ename LIKE '_A%'
+
+    EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN                SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD                 SALESMAN        7698 22-FEB-81       1250        500         30
+      7654 MARTIN               SALESMAN        7698 28-SEP-81       1250       1400         30
+      7876 ADAMS                CLERK           7788 23-MAY-87       1100                    20
+      7900 JAMES                CLERK           7698 03-DEC-81        950                    30
