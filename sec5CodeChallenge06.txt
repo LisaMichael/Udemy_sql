@@ -1,0 +1,90 @@
+-- code challenge 06 
+--Trim the special characters (*,",~,%) from ename column of below data 
+
+WITH t 
+AS 
+(SELECT '*KING$ AS ename FROM dual
+UNION ALL 
+SELECT ' JOHN$' AS ename FROM dual
+UNION ALL
+SELECT '~SCOTT%' AS ename FROM dual
+) SELECT ename FROM t
+
+-- Instructor using subqueury factoring
+
+SELECT ename FROM t 
+
+CLASSWORK EXAMPLE : 
+-- works best for me when i select the field  or object using the ui. Typing the command, it errors
+SELECT * FROM emp WHERE hiredate = TO_DATE('09-JUN-81')
+
+
+
+OUTPUT FROM SQL queury above: 
+
+ENAME  
+-------
+*KING$
+ JOHN$
+~SCOTT%
+
+-- will need to run query to create temporary data  
+-- must use nested functions
+-- use LTRIM  to trim the left side:
+
+WITH t 
+AS 
+(SELECT '*KING$' AS ename FROM dual
+UNION ALL 
+SELECT ' JOHN$' AS ename FROM dual
+UNION ALL
+SELECT '~SCOTT%' AS ename FROM dual
+)
+SELECT LTRIM(ename,'*!% ') AS trimmed_ename FROM t
+
+
+-- query results: 
+
+TRIMMED
+-------
+KING$
+JOHN$
+SCOTT%
+
+-- we need to nest with RTRIM to trim the right hand side
+
+WITH t 
+AS 
+(SELECT '*KING$' AS ename FROM dual
+UNION ALL 
+SELECT ' JOHN$' AS ename FROM dual
+UNION ALL
+SELECT '~SCOTT%' AS ename FROM dual
+)
+SELECT RTRIM(LTRIM(ename,'*!% '),'*!%$ ' ) AS trimmed_ename FROM t
+
+-- Output without the ~ displays as: 
+
+TRIMMED
+-------
+KING
+JOHN
+~SCOTT
+
+I add the ~ to fix  ~SCOTT 
+
+WITH t 
+AS 
+(SELECT '*KING$' AS ename FROM dual
+UNION ALL 
+SELECT ' JOHN$' AS ename FROM dual
+UNION ALL
+SELECT '~SCOTT%' AS ename FROM dual
+)
+SELECT RTRIM(LTRIM(ename,'*!~% '),'*!%$ ' ) AS trimmed_ename FROM t
+
+TRIMMED
+-------
+KING
+JOHN
+SCOTT
