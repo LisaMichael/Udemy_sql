@@ -1,0 +1,32 @@
+-- CODE CHALLENGE 04: Find all the employees working in dept number 10 or 20 and salary is more than 1500 from emp table
+
+SELECT * FROM emp WHERE deptno = 10 or deptno = 20 AND sal > 1500;
+
+output: 
+  EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7566 JONES                MANAGER         7839 02-APR-81       2975                    20
+      7782 CLARK                MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT                ANALYST         7566 19-APR-87       3000                    20
+      7839 KING                 PRESIDENT            17-NOV-81       5000                    10
+      7902 FORD                 ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER               CLERK           7782 23-JAN-82       1300                    10
+
+6 rows selected. 
+
+SELECT * FROM emp WHERE deptno = 10 AND sal > 1500 OR deptno = 20 AND sal > 1500
+
+output: 
+ EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7566 JONES                MANAGER         7839 02-APR-81       2975                    20
+      7782 CLARK                MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT                ANALYST         7566 19-APR-87       3000                    20
+      7839 KING                 PRESIDENT            17-NOV-81       5000                    10
+      7902 FORD                 ANALYST         7566 03-DEC-81       3000                    20
+	  
+	  SELECT * FROM emp WHERE (deptno = 10 or deptno = 20) AND sal > 1500; 
+	  
+	  or 
+	  
+	  SELECT * FROM emp WHERE deptno IN (10,20) AND sal > 1500
