@@ -1,0 +1,80 @@
+quiz 4: 
+
+1) select round(125.35, -1) from dual
+130 
+
+2) Select floor(-10.5) from dual
+-11
+
+3) Select ceil(-10.5) from dual
+-10
+
+4) Select trunc(315.43, -3) from dual
+0 
+
+5) Select MOD(13,5) from dual
+3 
+
+6) SELECT SIGN(125) FROM dual 
+1
+
+7) SELECT LTRIM(RTRIM('^The hamlet@','@'),'^') FROM dual
+The hamlet
+
+8) SELECT TRANSLATE('I am a world citizen','abcABC','xyzXYZ') FROM dual
+
+TRANSLATE('IAMAWORLD
+--------------------
+I xm x World Zitizen
+
+9) To find the coming MONDAY what is the best built-in function to use: 
+NEXT_DAY
+
+10) EXTRACT built-in function can extract from a date
+Year, Month, Day, Hour, Min, Sec
+
+11) What is the output of: 
+SELECT LAST_DAY(TO_DATE('14-12-2019','DD-MM-YYYY') FROM dual
+
+lesson has answer as : 13-12-2019 
+My output: 
+
+LAST_DAY(
+---------
+31-DEC-19
+
+What is the output of: 
+
+WITH t AS 
+(
+SELECT 'Welcome To Sequel' AS str FROM dual
+)
+SELECT SUBSTR(str, INSTR(str,'To'), LENGTH(str)) new_str FROM t;
+
+output: 
+To Sequel
+
+Question 13) 
+What is the output on: 
+SELECT NULLIF ('apple','apple') val1,
+NULLIF ('apple','orange') val2
+FROM dual 
+
+output: 
+
+VAL1 VAL2 
+---- -----
+     apple
+	 
+	 
+14) What is the output? 
+SELECT COALESCE(NULL, NULL, 10, 20, 30) FROM dual
+
+output:   --- returns first non null value:  
+
+COALESCE(NULL,NULL,10,20,30)
+----------------------------
+                          10
+
+15) Is implicit conversion faster than explicit conversion : 
+No - explicit conversion is faster 
