@@ -1,0 +1,75 @@
+-- Group Function Syntax: 
+
+SELECT  exp1, exp2, ... expn 
+	agg_function(aggr_exp)
+	FROM tables [WHERE conditions]
+	GROUP BY exp1, exp2, ... expn 
+	[having conditions]
+	
+	-- Find the sum of salary deptwise
+	10 --- 
+	20 --- 
+	30 ---
+	
+	SELECT deptno, sum(sal) FROM emp GROUP BY deptno
+	
+	   DEPTNO   SUM(SAL)
+---------- ----------
+        20      10875
+        30       9400
+        10       8750
+		
+		
+Testing : 
+
+Select * FROM emp WHERE deptno = 10
+
+EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7782 CLARK                MANAGER         7839 09-JUN-81       2450                    10
+      7839 KING                 PRESIDENT            17-NOV-81       5000                    10
+      7934 MILLER               CLERK           7782 23-JAN-82       1300                    10
+	  
+	  
+	  dept no = 30
+SELECT * FROM emp WHERE deptno = 30
+
+	     EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN                SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD                 SALESMAN        7698 22-FEB-81       1250        500         30
+      7654 MARTIN               SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE                MANAGER         7839 01-MAY-81       2850                    30
+      7844 TURNER               SALESMAN        7698 08-SEP-81       1500          0         30
+      7900 JAMES                CLERK           7698 03-DEC-81        950                    30
+	  
+	  +++++++++++++++++++++++++++
+	  
+	  display only salary greater than 9000 in deptno 
+SELECT deptno, SUM(sal)
+FROM emp
+GROUP BY deptno
+HAVING SUM(sal) > 9000
+
+   DEPTNO   SUM(SAL)
+---------- ----------
+        20      10875
+        30       9400
+		
+	
+		
+		List all jobs that are not clerk jobs that have a dept salary  larger than 9000: 
+		
+	SELECT deptno,SUM(sal)
+FROM emp WHERE job <> 'Clerk'
+GROUP BY deptno HAVING SUM(sal)> 9000
+		
+		    DEPTNO   SUM(SAL)
+---------- ----------
+        20      10875
+        30       9400
+
+
+-- MIN MAX AVG COUNT SUM 
+
+SELECT MIN(sal), MAX(sal) FROM emp
