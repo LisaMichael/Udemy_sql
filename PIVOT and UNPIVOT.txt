@@ -1,0 +1,74 @@
+PIVOT and UNPIVOT: 
+Aggregate functions return a single result row based on group of rows rather than a single row 
+
+
+Some types of Grow Row Functions: 
+1) Group functions 
+2) Analytical functionss.
+
+pivot turns a row into a column and can do a count. 
+
+SELECT * 
+FROM (SELECT deptno, empno,FROM empno
+) 
+PIVOT (COUNT(empno)
+FOR (deptno) IN ('10' AS dept10, '20' AS dept20, '30' AS dept30));
+
+ex: 
+
+count number of employees in each dept, ie) dept 10 , 20 , 30: 
+
+SELECT * 
+FROM (SELECT deptno, empno
+FROM emp
+) 
+PIVOT (COUNT(empno)
+FOR (deptno) IN ('10' AS dept10, '20' AS dept20, '30' AS dept30));
+
+output: 
+
+  DEPT10     DEPT20     DEPT30
+---------- ---------- ----------
+         3          5          6
+		 
+-- this time the instructor does the same but uses count()
+
+SELECT * FROM emp
+SELECT deptno, count(*) no_of_emp FROM emp
+GROUP BY deptno
+
+-- dont work try this: 
+
+SELECT * FROM 
+(
+SELECT deptno, empno FROM emp
+)
+PIVOT (COUNT(empno) FOR (deptno) IN ('10' AS dept10,'20' AS dept20,'30' AS dept30))  < -- displays as column names 
+
+output: 
+ DEPT10     DEPT20     DEPT30
+---------- ---------- ----------
+         3          5          6
+		 
+		 
+-- try jobs ... add job and count of each job position:
+
+SELECT * FROM emp
+(
+SELECT job, empno FROM emp)
+PIVOT (COUNT(empno) FOR (job) IN ('CLERK' AS clerk, 'MANAGER' AS MANAGER,'ANALYST' AS analyst,'SALESMAN' AS salesman,'PRESIDENT' AS president))
+
+ CLERK    MANAGER    ANALYST   SALESMAN  PRESIDENT
+---------- ---------- ---------- ---------- ----------
+         4          3          2          4          1
+		 
+-- create table called pilot test - unpivot dem 
+
+CREATE TABLE unpivot_test
+AS
+SELECT * 
+FROM (SELECT job, empno FROM emp) 
+PIVOT (COUNT(empno) FOR (job) IN ('CLERK' AS clerk, 'MANAGER' AS MANAGER,'ANALYST' AS analyst,'SALESMAN' AS salesman,'PRESIDENT' AS president))
+
+
+ 
