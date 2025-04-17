@@ -1,0 +1,50 @@
+-- order by sal , give a ranking inside of each dept 
+
+SELECT deptno, empno, ename, sal, ROW_NUMBER() OVER (PARTITION BY deptno ORDER BY sal DESC) rnk FROM emp
+
+output: 
+
+DEPTNO      EMPNO ENAME                       SAL        RNK
+---------- ---------- -------------------- ---------- ----------
+        10       7839 KING                       5000          1
+        10       7782 CLARK                      2450          2
+        10       7934 MILLER                     1300          3
+        20       7788 SCOTT                      3000          1
+        20       7902 FORD                       3000          2
+        20       7566 JONES                      2975          3
+        20       7876 ADAMS                      1100          4
+        20       7369 SMITH                       800          5
+        30       7698 BLAKE                      2850          1
+        30       7499 ALLEN                      1600          2
+        30       7844 TURNER                     1500          3
+        30       7654 MARTIN                     1250          4
+        30       7521 WARD                       1250          5
+        30       7900 JAMES                       950          6
+
+14 rows selected. 
+
+-- The correct way to do the exercise is: 
+
+SELECT deptno, empno, ename, sal, DENSE_RANK() OVER (PARTITION BY deptno ORDER BY sal DESC) rnk FROM emp
+
+ DEPTNO      EMPNO ENAME                       SAL        RNK
+---------- ---------- -------------------- ---------- ----------
+        10       7839 KING                       5000          1
+        10       7782 CLARK                      2450          2
+        10       7934 MILLER                     1300          3
+        20       7788 SCOTT                      3000          1
+        20       7902 FORD                       3000          1
+        20       7566 JONES                      2975          2
+        20       7876 ADAMS                      1100          3
+        20       7369 SMITH                       800          4
+        30       7698 BLAKE                      2850          1
+        30       7499 ALLEN                      1600          2
+        30       7844 TURNER                     1500          3
+        30       7654 MARTIN                     1250          4
+        30       7521 WARD                       1250          4
+        30       7900 JAMES                       950          5
+
+14 rows selected. 
+??
+
+need to check
