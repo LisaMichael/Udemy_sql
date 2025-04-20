@@ -1,0 +1,73 @@
+-- LEAD and LAG
+
+syntax 
+LEAD(exp, offset, default)
+LAG(exp, offset, default)
+
+Exp:  Can be a column or built-in function  
+offset: The nuumber of rows preceding/following the current row. The default is 1
+default: The value returned if the offset is outside the scope of the window. The default value is null.
+
+EX : 
+
+SELECT * FROM mv_kilometre
+
+  VEHICLE  KILOMETRE DATE_KILO
+---------- ---------- ---------
+         1       2643 31-DEC-15
+         1      14806 31-DEC-16
+         1      26222 31-DEC-17
+         1      27223 31-DEC-18
+         1      28134 31-DEC-19
+
+
+SELECT t.*,
+LAG(t.KILOMETRE, 1, 0) OVER (ORDER BY DATE_KILOMETRE ASC) PV_KILOMETRE
+FROM MV_KILOMETRE t
+
+output: 
+
+VEHICLE  KILOMETRE DATE_KILO PV_KILOMETRE
+---------- ---------- --------- ------------
+         1       2643 31-DEC-15            0
+         1      14806 31-DEC-16         2643
+         1      26222 31-DEC-17        14806
+         1      27223 31-DEC-18        26222
+         1      28134 31-DEC-19        27223
+		 
+SELECT t.*,
+LAG(t.KILOMETRE, 1, 0) OVER (ORDER BY DATE_KILOMETRE ASC) PV_KILOMETRE, 
+LEAD(t.KILOMETRE, 1 , 0_
+FROM MV_KILOMETRE t
+
+-- MOVE TO THE NEXT
+
+SELECT t.* ,
+LAG(t.KILOMETRE,1,0) OVER (ORDER BY DATE_KILOMETRE ASC) PV_KILOMETRE,
+LEAD(t.KILOMETRE,1,0)OVER (ORDER BY DATE_KILOMETRE ASC) NX_KILOMETRE
+FROM MV_KILOMETRE t
+
+VEHICLE  KILOMETRE DATE_KILO PV_KILOMETRE NX_KILOMETRE
+---------- ---------- --------- ------------ ------------
+         1       2643 31-DEC-15            0        14806
+         1      14806 31-DEC-16         2643        26222
+         1      26222 31-DEC-17        14806        27223
+         1      27223 31-DEC-18        26222        28134
+         1      28134 31-DEC-19        27223            0
+         
+    -- DIFFERENCE BETWEEN TWO (BETWEEN LAG AND LEAD)CONSECUTIVE YEARS: 
+    
+    SELECT t.* ,
+LAG(t.KILOMETRE,1,0) OVER (ORDER BY DATE_KILOMETRE ASC) PV_KILOMETRE,
+LEAD(t.KILOMETRE,1,0)OVER (ORDER BY DATE_KILOMETRE ASC) NX_KILOMETRE,
+t.KILOMETRE - LAG(t.KILOMETRE,1,0) OVER (ORDER BY DATE_KILOMETRE ASC) DIFF_KILOMETRE
+FROM MV_KILOMETRE t
+
+OUTPUT: 
+VEHICLE  KILOMETRE DATE_KILO PV_KILOMETRE NX_KILOMETRE DIFF_KILOMETRE
+---------- ---------- --------- ------------ ------------ --------------
+         1       2643 31-DEC-15            0        14806           2643
+         1      14806 31-DEC-16         2643        26222          12163
+         1      26222 31-DEC-17        14806        27223          11416
+         1      27223 31-DEC-18        26222        28134           1001
+         1      28134 31-DEC-19        27223            0            911
