@@ -1,0 +1,12 @@
+-- Find the account balance customer wise. Take the data from the ACCOUNTS table.
+
+SELECT customer_name, sum(DECODE(TRANS_TYPE,'C', 1 * AMOUNT, 'D', -1 * AMOUNT, 0)) AS acc_bal 
+FROM accounts 
+GROUP BY CUSTOMER_NAME
+
+
+output: 
+CUSTOMER_NAME           ACC_BAL
+-------------------- ----------
+Alex                        700
+King                       6500
