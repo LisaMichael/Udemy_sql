@@ -1,0 +1,158 @@
+
+-- all from the emp table: 
+    SELECT * FROM emp 
+
+
+
+     EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH                CLERK           7902 17-DEC-80        800                    20
+      7499 ALLEN                SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD                 SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES                MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN               SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE                MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK                MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT                ANALYST         7566 19-APR-87       3000                    20
+      7839 KING                 PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER               SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS                CLERK           7788 23-MAY-87       1100                    20
+
+     EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7900 JAMES                CLERK           7698 03-DEC-81        950                    30
+      7902 FORD                 ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER               CLERK           7782 23-JAN-82       1300                    10
+
+14 rows selected. 
+
+-- query to display heirarchy of leaf, 
+
+SELECT ename, empno, mgr, level, SYS_CONNECT_BY_PATH(ename, '>') path, 
+    CONNECT_BY_ISLEAF AS leaf, 
+    CONNECT_BY_ROOT ename AS root_id
+FROM emp 
+START WITH empno = 7934
+CONNECT BY empno = PRIOR mgr
+ORDER BY level
+
+output: 
+
+ENAME                     EMPNO        MGR      LEVEL
+-------------------- ---------- ---------- ----------
+PATH
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      LEAF ROOT_ID             
+---------- --------------------
+MILLER                     7934       7782          1 
+>MILLER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+         0 MILLER              
+
+CLARK                      7782       7839          2 
+>MILLER>CLARK                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+         0 MILLER              
+
+ENAME                     EMPNO        MGR      LEVEL
+-------------------- ---------- ---------- ----------
+PATH
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      LEAF ROOT_ID             
+---------- --------------------
+
+KING                       7839                     3 
+>MILLER>CLARK>KING                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+         1 MILLER              
+
+
+
+-- update command: 
+
+UPDATE emp SET mgr = 7934 WHERE  empno = 7839
+
+output: 
+1 row updated.
+
++++++++++++++++
+
+I run the query above and now i'm in a loop: 
+
+SELECT ename, empno, mgr, level, SYS_CONNECT_BY_PATH(ename, '>') path, 
+    CONNECT_BY_ISLEAF AS leaf, 
+    CONNECT_BY_ROOT ename AS root_id
+FROM emp 
+START WITH empno = 7934
+CONNECT BY empno = PRIOR mgr
+ORDER BY level
+
+output: 
+Error at Command Line : 4 Column : 6
+Error report -
+SQL Error: ORA-01436: CONNECT BY loop in user data
+
+King  
+miller 7934 -> king to scott to miller to king ... loop 
+
+added CONNECT BY NO CYCLE  and added CONNECT_BY_ISCYCLE AS cyclic : 
+
+SELECT ename, empno, mgr, level, SYS_CONNECT_BY_PATH(ename, '>') path, 
+    CONNECT_BY_ISLEAF AS leaf, 
+    CONNECT_BY_ROOT ename AS root_id,
+	CONNECT_BY_ISCYCLE AS cyclic
+FROM emp 
+START WITH empno = 7934
+CONNECT BY NOCYCLE empno = PRIOR mgr
+ORDER BY level
+
+
+output: 
+
+ENAME                     EMPNO        MGR      LEVEL
+-------------------- ---------- ---------- ---------- 
+PATH
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      LEAF ROOT_ID                  CYCLIC
+---------- -------------------- ----------
+MILLER                     7934       7782          1 
+>MILLER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+         0 MILLER                        0
+
+CLARK                      7782       7839          2 
+>MILLER>CLARK                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+         0 MILLER                        0
+
+ENAME                     EMPNO        MGR      LEVEL
+-------------------- ---------- ---------- ----------
+PATH
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      LEAF ROOT_ID                  CYCLIC
+---------- -------------------- ----------
+
+KING                       7839       7934          3 
+>MILLER>CLARK>KING                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+         1 MILLER                        1
+
+
+-- if i use CYCLE , i get error: 
+
+QUERY: 
+SELECT ename, empno, mgr, level, SYS_CONNECT_BY_PATH(ename, '>') path, 
+    CONNECT_BY_ISLEAF AS leaf, 
+    CONNECT_BY_ROOT ename AS root_id,
+	CONNECT_BY_ISCYCLE AS cyclic
+FROM emp 
+START WITH empno = 7934
+CONNECT BY CYCLE empno = PRIOR mgr
+ORDER BY level
+
+
+Error at Command Line : 7 Column : 12
+Error report -
+SQL Error: ORA-30930: NOCYCLE keyword is required with CONNECT_BY_ISCYCLE pseudocolumn
+
+https://docs.oracle.com/error-help/db/ora-30930/30930. 00000 -  "NOCYCLE keyword is required with CONNECT_BY_ISCYCLE pseudocolumn."
+*Cause:    CONNECT_BY_ISCYCLE was used in a query which does not include the
+           NOCYCLE keyword.
+*Action:   Remove CONNECT_BY_ISCYCLE or add NOCYCLE.
+
+More Details :
+https://docs.oracle.com/error-help/db/ora-30930/
