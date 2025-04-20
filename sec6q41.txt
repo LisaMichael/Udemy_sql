@@ -1,0 +1,35 @@
+-- 
+
+
+SELECT * FROM 
+(
+
+SELECT empno, deptno FROM emp )
+PIVOT ( count(empno) FOR
+(deptno) IN (10 AS "dept 10",
+            20 AS "dept 20",
+            30 AS "dept 30")
+);
+
+EXERCISE: 
+
+Take the records from emp table and populate the data in the below format: 
+
+NEW YORK | DALLAS | CHICAGO 
+3			5			6
+
+SELECT * FROM 
+(
+
+SELECT empno, deptno FROM emp )
+PIVOT ( count(empno) FOR
+(deptno) IN (10 AS "NEW YORK",
+            20 AS "DALLAS",
+            30 AS "CHICAGO",
+            40 AS "BOSTON")
+);
+
+
+ NEW YORK     DALLAS    CHICAGO     BOSTON
+---------- ---------- ---------- ----------
+         3          5          6          0
