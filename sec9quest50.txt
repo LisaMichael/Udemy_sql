@@ -1,0 +1,20 @@
+-- Update and Delete using co-related subqurery
+-- sec9ques50
+
+SELECT * FROM emp 
+SELECT * FROM 
+
+
+SELECT * FROM emp WHERE deptno = 20 
+
+-- increase 20 -- DALLAS employees by 10 percent 
+
+UPDATE  emp SET sal = sal * 1.1 WHERE deptno = (SELECT deptno FROM e.deptno = d.deptno AND d.loc = 'DALLAS')
+
+UPDATE emp e SET sal = sal * 1.1
+WHERE e.deptno = (SELECT deptno FROM dept WHERE e.deptno = d.deptno AND d.loc = 'DALLAS' )
+
+-- to delete records:  delete employee details in dalls: 
+
+DELETE FROM emp e
+WHERE e.deptno = (SELECT deptno FROM dept d WHERE e.deptno = d.deptno AND d.loc = 'DALLAS' )
