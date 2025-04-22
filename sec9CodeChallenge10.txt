@@ -1,1 +1,17 @@
 --  Sec 9 Code Challenge 10
+
+-- Provide additional allowance of $100 dollars as commission to all the employees working in location "New York" and "CHICAGO". 
+NOTE: Use Table "emp" & "comm" columns for comissions. Try to wrote a corelated subquery.
+
+
+-- select all names that are in new york and chicago.
+-- new york =10 
+-- chicago =30 
+
+SELECT empno, ename,comm, deptno FROM emp WHERE deptno IN (10,30);
+
+UPDATE emp SET comm = comm + 100
+
+UPDATE emp SET comm = comm + 100
+WHERE EXISTS (SELECT 1 FROM dept WHERE dept.deptno = emp.deptno 
+AND dept.loc IN ('NEW YORK', 'CHICAGO'));
