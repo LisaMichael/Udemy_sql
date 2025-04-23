@@ -1,0 +1,145 @@
+-- QUERY TYPES: 
+
+Inner join (simple) - it would return records where table1 and table2 intersect between two tables 
+
+table1    table2    join: -
+1			2
+2			3
+3			4
+
+left outer join - it would return all the records from table1 and only those records from table 2 that intersect with table 1.
+
+table1    table2    join: 1,2,3
+1			2
+2			3
+3			4
+
+right outer join - (right join) - It would return all the records from table2 and only those records from table1 that intersect with table2. 
+table1    table2    join: 2,3,4
+1			2
+2			3
+3			4
+
+full outer join (full join) - It would return the all records from both table1 and table2. 
+
+table1    table2    joined: 1,2,3,4
+1			2
+2			3
+3			4
+
+
+
+Inner join example: 
+
+SELECT * FROM emp_join: 
+
+     EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7788 SCOTT                ANALYST         7566 13-JUL-87       3000                    20
+      7839 KING                 PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER               SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS                CLERK           7788 13-JUL-87       1100                    20
+      1000 JAMES                CLERK           7788 18-JUL-88       2100                    50
+      1001 HARRY                CLERK           7788 12-JUL-75       2600                    50
+
+6 rows selected. 
+
+
+
+SELECT * FROM dept
+
+    DEPTNO DNAME          LOC          
+---------- -------------- -------------
+        10 ACCOUNTING     NEW YORK     
+        20 RESEARCH       DALLAS       
+        30 SALES          CHICAGO      
+        40 OPERATIONS     BOSTON       
+
+
+SELECT e.empno, e.ename,
+e.deptno, d.loc
+FROM emp_join e
+INNER JOIN dept d
+ON e.deptno = d.deptno;
+
+output: 
+
+     EMPNO ENAME                    DEPTNO LOC          
+---------- -------------------- ---------- -------------
+      7788 SCOTT                        20 DALLAS       
+      7839 KING                         10 NEW YORK     
+      7844 TURNER                       30 CHICAGO      
+      7876 ADAMS                        20 DALLAS   
+	  
+	  
+	  -- i did this on my own. 
+	  
+	  SELECT e.empno, e.ename,
+e.deptno, d.loc
+FROM emp_join e
+RIGHT JOIN dept d
+ON e.deptno = d.deptno;
+
+     EMPNO ENAME                    DEPTNO LOC          
+---------- -------------------- ---------- -------------
+      7788 SCOTT                        20 DALLAS       
+      7839 KING                         10 NEW YORK     
+      7844 TURNER                       30 CHICAGO      
+      7876 ADAMS                        20 DALLAS       
+
+
+     EMPNO ENAME                    DEPTNO LOC          
+---------- -------------------- ---------- -------------
+      7788 SCOTT                        20 DALLAS       
+      7839 KING                         10 NEW YORK     
+      7844 TURNER                       30 CHICAGO      
+      7876 ADAMS                        20 DALLAS       
+                                           BOSTON       
+										   
+
+-- same output from previous but different syntax only includes all columns: 										   
+SELECT e.*, d.loc FROM emp_join e
+INNER JOIN dept d
+ON d.deptno = e.deptno
+
+ EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO LOC          
+---------- -------------------- --------- ---------- --------- ---------- ---------- ---------- -------------
+      7788 SCOTT                ANALYST         7566 13-JUL-87       3000                    20 DALLAS       
+      7839 KING                 PRESIDENT            17-NOV-81       5000                    10 NEW YORK     
+      7844 TURNER               SALESMAN        7698 08-SEP-81       1500          0         30 CHICAGO      
+      7876 ADAMS                CLERK           7788 13-JUL-87       1100                    20 DALLAS       
+
+SELECT e.empno, e.ename,
+e.deptno, d.loc
+FROM emp_join e
+LEFT OUTER JOIN dept d
+ON e.deptno = d.deptno;
+
+output: 
+
+    EMPNO ENAME                    DEPTNO LOC          
+---------- -------------------- ---------- -------------
+      7839 KING                         10 NEW YORK     
+      7788 SCOTT                        20 DALLAS       
+      7876 ADAMS                        20 DALLAS       
+      7844 TURNER                       30 CHICAGO      
+      1000 JAMES                        50              
+      1001 HARRY                        50              
+
+6 rows selected. 
+
+SELECT e.*, d.loc
+FROM emp_join e
+LEFT OUTER JOIN dept d
+ON e.deptno = d.deptno;
+
+    EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO LOC          
+---------- -------------------- --------- ---------- --------- ---------- ---------- ---------- -------------
+      7839 KING                 PRESIDENT            17-NOV-81       5000                    10 NEW YORK     
+      7788 SCOTT                ANALYST         7566 13-JUL-87       3000                    20 DALLAS       
+      7876 ADAMS                CLERK           7788 13-JUL-87       1100                    20 DALLAS       
+      7844 TURNER               SALESMAN        7698 08-SEP-81       1500          0         30 CHICAGO      
+      1000 JAMES                CLERK           7788 18-JUL-88       2100                    50              
+      1001 HARRY                CLERK           7788 12-JUL-75       2600                    50              
+
+6 rows selected. 
