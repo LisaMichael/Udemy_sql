@@ -143,3 +143,68 @@ ON e.deptno = d.deptno;
       1001 HARRY                CLERK           7788 12-JUL-75       2600                    50              
 
 6 rows selected. 
+
+SELECT e.empno, e.ename,
+e.deptno, d.loc
+FROM emp_join e
+RIGHT OUTER JOIN dept d
+ON e.deptno = d.deptno;
+
+     EMPNO ENAME                    DEPTNO LOC          
+---------- -------------------- ---------- -------------
+      7788 SCOTT                        20 DALLAS       
+      7839 KING                         10 NEW YORK     
+      7844 TURNER                       30 CHICAGO      
+      7876 ADAMS                        20 DALLAS       
+                                           BOSTON  
+										   
+										   
+
+
+
+SELECT e.*, d.loc
+FROM emp_join e
+LEFT OUTER JOIN dept d
+ON e.deptno = d.deptno;
+
+     EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO LOC          
+---------- -------------------- --------- ---------- --------- ---------- ---------- ---------- -------------
+      7788 SCOTT                ANALYST         7566 13-JUL-87       3000                    20 DALLAS       
+      7839 KING                 PRESIDENT            17-NOV-81       5000                    10 NEW YORK     
+      7844 TURNER               SALESMAN        7698 08-SEP-81       1500          0         30 CHICAGO      
+      7876 ADAMS                CLERK           7788 13-JUL-87       1100                    20 DALLAS       
+                                                                                                BOSTON     
+			
+SELECT e.*, d.loc
+FROM emp_join e
+RIGHT OUTER JOIN dept d
+ON e.deptno = d.deptno;
+
+output: 
+
+  EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO LOC          
+---------- -------------------- --------- ---------- --------- ---------- ---------- ---------- -------------
+      7788 SCOTT                ANALYST         7566 13-JUL-87       3000                    20 DALLAS       
+      7839 KING                 PRESIDENT            17-NOV-81       5000                    10 NEW YORK     
+      7844 TURNER               SALESMAN        7698 08-SEP-81       1500          0         30 CHICAGO      
+      7876 ADAMS                CLERK           7788 13-JUL-87       1100                    20 DALLAS       
+                                                                                                BOSTON      
+	
+SELECT e.*, d.loc
+FROM emp_join e
+RIGHT OUTER JOIN dept d
+ON e.deptno = d.deptno;	
+																								
+
+EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO LOC          
+---------- -------------------- --------- ---------- --------- ---------- ---------- ---------- -------------
+      7788 SCOTT                ANALYST         7566 13-JUL-87       3000                    20 DALLAS       
+      7839 KING                 PRESIDENT            17-NOV-81       5000                    10 NEW YORK     
+      7844 TURNER               SALESMAN        7698 08-SEP-81       1500          0         30 CHICAGO      
+      7876 ADAMS                CLERK           7788 13-JUL-87       1100                    20 DALLAS       
+      1000 JAMES                CLERK           7788 18-JUL-88       2100                    50              
+      1001 HARRY                CLERK           7788 12-JUL-75       2600                    50              
+                                                                                                BOSTON       
+
+7 rows selected. 
+
