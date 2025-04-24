@@ -1,0 +1,102 @@
+- Tables 
+
+- Data types 
+
+Character: 
+CHAR -> Fixed-length character max data size 2000 
+VARCHAR  -> Variable -length character max data size 4000 bytes
+CLOB -> Variable-length characcter data and max data size 4 gb 
+LONG -> Variable-length character data 
+
+Number(p,q) :        p =  precision     q = scale
+NUMBER(p,q) -> Variable for each row. The maximum size is 21 bytes per row.
+
+Date: 
+DATE -> Fixed at 7 bytes for each row in the table. Default format is a string (such as DD-MM-YY) specified by NLS_DATE_FORMAT parameter. 
+
+Binary: 
+BLOB: Binary data. Max size 4 gigabytes (Binary Large OBject) 
+BFILE: External file. Max size 4 gigabytes 
+RAW - > Variable-lenghth raw binary data. Max size 2 gigabytes.
+
+
+-- Lets create a table 
+
+CREATE TABLE product 
+(
+Product_id NUMBER(5),
+Product_code VARCHAR(10),
+Product_desc	VARCHAR(100),
+Year_of_man		NUMBER(4),
+Date_of_man		DATE,
+Unit		Number(5),
+Price		NUMBER(7,2)
+);
+
+Error report -
+ORA-00955: name is already used by an existing object
+
+SELECT * FROM product 
+
+OUTPUT: 
+
+  PROD_ID PROD_CAT_ID PROD_DESC                                                                                            YEAR_OF_MAN DATE_OF_M       UNIT      PRICE
+---------- ----------- ---------------------------------------------------------------------------------------------------- ----------- --------- ---------- ----------
+      1001           1 Acer Laptops 1.1                                                                                            2020 01-MAR-20          1       1200
+      1002           1 DELL Vostro 15 3501                                                                                         2020 13-JUL-20          1       1500
+      1003           1 HP 15S-du0094tu                                                                                             2019 27-SEP-19          1       1450
+      2001           3 LG LED 7.1                                                                                                  2020 01-MAR-20          1        250
+      2002           3 HP 21.5-inch Full HD Monitor                                                                                2020 13-JUL-20          1        300
+      2003           3 ThinkVision S27i-10                                                                                         2019 27-SEP-19          1        310
+      3001           5 LG RAM 4GB                                                                                                  2017 01-MAR-20          1        100
+      3002           5 HP RAM 8GB                                                                                                  2015 13-JUL-20          1        125
+      3003           5 LENEVO 8GB                                                                                                  2018 27-SEP-19          1        115
+	  
+	  
+
+INSERT INTO product (prod_id , PROD_CAT_ID,prod_Desc, Year_of_man,Date_of_man,unit, price ) VALUES
+                    (1,'P001', 'Laptop',2017, TO_DATE('15-MAR-2017','DD-MON-YYYY'), 1, 1200  );
+					
+INSERT INTO product (prod_id , PROD_CAT_ID,prod_Desc, Year_of_man,Date_of_man,unit, price ) VALUES
+                    (2,'P002', 'Desktop',2019, TO_DATE('15-MAR-2019','DD-MON-YYYY'), 1, 800  );
+                    
+INSERT INTO product (prod_id , PROD_CAT_ID,prod_Desc, Year_of_man,Date_of_man,unit, price ) VALUES
+                    (3,'P003', 'RAM',2019, TO_DATE('15-APR-2019','DD-MON-YYYY'), 1, 250  );
+					
+					
+i HAD TO CHANGE COLUMN: 
+
+INSERT INTO product (prod_id , PROD_CAT_ID,prod_Desc, Year_of_man,Date_of_man,unit, price ) VALUES
+                    (1,'1', 'Laptop',2017, TO_DATE('15-MAR-2017','DD-MON-YYYY'), 1, 1200  );
+					
+INSERT INTO product (prod_id , PROD_CAT_ID,prod_Desc, Year_of_man,Date_of_man,unit, price ) VALUES
+                    (2,'2', 'Desktop',2019, TO_DATE('15-MAR-2019','DD-MON-YYYY'), 1, 800  );
+                    
+INSERT INTO product (prod_id , PROD_CAT_ID,prod_Desc, Year_of_man,Date_of_man,unit, price ) VALUES
+                    (3,'3', 'RAM',2019, TO_DATE('15-APR-2019','DD-MON-YYYY'), 1, 250  );
+					
+					
+OUTPUT: 
+
+ PROD_ID PROD_CAT_ID PROD_DESC                                                                                            YEAR_OF_MAN DATE_OF_M       UNIT      PRICE
+---------- ----------- ---------------------------------------------------------------------------------------------------- ----------- --------- ---------- ----------
+      1001           1 Acer Laptops 1.1                                                                                            2020 01-MAR-20          1       1200
+      1002           1 DELL Vostro 15 3501                                                                                         2020 13-JUL-20          1       1500
+      1003           1 HP 15S-du0094tu                                                                                             2019 27-SEP-19          1       1450
+      2001           3 LG LED 7.1                                                                                                  2020 01-MAR-20          1        250
+      2002           3 HP 21.5-inch Full HD Monitor                                                                                2020 13-JUL-20          1        300
+      2003           3 ThinkVision S27i-10                                                                                         2019 27-SEP-19          1        310
+      3001           5 LG RAM 4GB                                                                                                  2017 01-MAR-20          1        100
+      3002           5 HP RAM 8GB                                                                                                  2015 13-JUL-20          1        125
+      3003           5 LENEVO 8GB                                                                                                  2018 27-SEP-19          1        115
+         1           1 Laptop                                                                                                      2017 15-MAR-17          1       1200
+         2           2 Desktop                                                                                                     2019 15-MAR-19          1        800
+
+   PROD_ID PROD_CAT_ID PROD_DESC                                                                                            YEAR_OF_MAN DATE_OF_M       UNIT      PRICE
+---------- ----------- ---------------------------------------------------------------------------------------------------- ----------- --------- ---------- ----------
+         3           3 RAM                                                                                                         2019 15-APR-19          1        250
+		 
+		 
+		 I'm not gonna commit but commit is the next step 
+		 
+		 
