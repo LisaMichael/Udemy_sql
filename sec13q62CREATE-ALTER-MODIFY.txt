@@ -1,0 +1,76 @@
+
+--- DDL Data Defintion Language 
+
+OPERATION 							DETAILS
+
+DROP			DROP TABLE<tablename>;
+				ALTER TABLE<tablename> DROP <column name>;
+				ALTER TABLE<tablename> SET UNUSED <column list>;
+				ALTER TABLE<tablename> DROP UNUSED COLUMNS;
+				
+ALTER 			ALTER TABLE<tablename> MODIFY<column name>
+structure of 	DATAYPE(size)
+table 
+
+RENAME			RENAME<tablename1> TO <tablename2>;
+				ALTER TABLE<tablename> RENAME <column1> TO <column2>; 
+				
+Truncate		TRUNCATE TABLE<tablename>;
+				DELETE FROM<tablename> WHERE <condition>
+				COMMIT;
+				
+				
+-- Add a column to a table: 
+
+ALTER TABLE product ADD CREATED_BY VARCHAR(30);
+
+-- DISPLAY TABLE FOR ADDING COLUMN: 
+
+  PROD_ID PROD_CAT_ID PROD_DESC                                                                                            YEAR_OF_MAN DATE_OF_M       UNIT      PRICE
+---------- ----------- ---------------------------------------------------------------------------------------------------- ----------- --------- ---------- ----------
+      1001           1 Acer Laptops 1.1                                                                                            2020 01-MAR-20          1       1200
+      1002           1 DELL Vostro 15 3501                                                                                         2020 13-JUL-20          1       1500
+      1003           1 HP 15S-du0094tu                                                                                             2019 27-SEP-19          1       1450
+      2001           3 LG LED 7.1                                                                                                  2020 01-MAR-20          1        250
+      2002           3 HP 21.5-inch Full HD Monitor                                                                                2020 13-JUL-20          1        300
+      2003           3 ThinkVision S27i-10                                                                                         2019 27-SEP-19          1        310
+      3001           5 LG RAM 4GB                                                                                                  2017 01-MAR-20          1        100
+      3002           5 HP RAM 8GB                                                                                                  2015 13-JUL-20          1        125
+      3003           5 LENEVO 8GB                                                                                                  2018 27-SEP-19          1        115
+         1           1 Laptop                                                                                                      2017 15-MAR-17          1       1200
+         2           2 Desktop                                                                                                     2019 15-MAR-19          1        800
+
+   PROD_ID PROD_CAT_ID PROD_DESC                                                                                            YEAR_OF_MAN DATE_OF_M       UNIT      PRICE
+---------- ----------- ---------------------------------------------------------------------------------------------------- ----------- --------- ---------- ----------
+         3           3 RAM                                                                                                         2019 15-APR-19          1        250
+
+12 rows selected. 
+
+-- Now lets add a column called CREATED_BY
+
+ALTER TABLE product ADD CREATED_BY VARCHAR(30);
+
+output: 
+Table PRODUCT altered.
+
+-- display table again with new column: 
+
+ PROD_ID PROD_CAT_ID PROD_DESC                                                                                            YEAR_OF_MAN DATE_OF_M       UNIT      PRICE CREATED_BY                    
+---------- ----------- ---------------------------------------------------------------------------------------------------- ----------- --------- ---------- ---------- ------------------------------
+      1001           1 Acer Laptops 1.1                                                                                            2020 01-MAR-20          1       1200                               
+      1002           1 DELL Vostro 15 3501                                                                                         2020 13-JUL-20          1       1500                               
+      1003           1 HP 15S-du0094tu                                                                                             2019 27-SEP-19          1       1450                               
+      2001           3 LG LED 7.1                                                                                                  2020 01-MAR-20          1        250                               
+      2002           3 HP 21.5-inch Full HD Monitor                                                                                2020 13-JUL-20          1        300                               
+      2003           3 ThinkVision S27i-10                                                                                         2019 27-SEP-19          1        310                               
+      3001           5 LG RAM 4GB                                                                                                  2017 01-MAR-20          1        100                               
+      3002           5 HP RAM 8GB                                                                                                  2015 13-JUL-20          1        125                               
+      3003           5 LENEVO 8GB                                                                                                  2018 27-SEP-19          1        115                               
+         1           1 Laptop                                                                                                      2017 15-MAR-17          1       1200                               
+         2           2 Desktop                                                                                                     2019 15-MAR-19          1        800                               
+
+   PROD_ID PROD_CAT_ID PROD_DESC                                                                                            YEAR_OF_MAN DATE_OF_M       UNIT      PRICE CREATED_BY                    
+---------- ----------- ---------------------------------------------------------------------------------------------------- ----------- --------- ---------- ---------- ------------------------------
+         3           3 RAM                                                                                                         2019 15-APR-19          1        250                               
+
+12 rows selected. 
