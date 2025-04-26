@@ -1,0 +1,54 @@
+ALTER TABLE product ADD CREATED_BY VARCHAR(30);
+SELECT * FROM product
+
+Table PRODUCT altered.
+
+
+   PROD_ID PROD_CAT_ID PROD_DESC                                                                                            YEAR_OF_MAN DATE_OF_M       UNIT      PRICE CREATED_BY                    
+---------- ----------- ---------------------------------------------------------------------------------------------------- ----------- --------- ---------- ---------- ------------------------------
+      1001           1 Acer Laptops 1.1                                                                                            2020 01-MAR-20          1       1200                               
+      1002           1 DELL Vostro 15 3501                                                                                         2020 13-JUL-20          1       1500                               
+      1003           1 HP 15S-du0094tu                                                                                             2019 27-SEP-19          1       1450                               
+      2001           3 LG LED 7.1                                                                                                  2020 01-MAR-20          1        250                               
+      2002           3 HP 21.5-inch Full HD Monitor                                                                                2020 13-JUL-20          1        300                               
+      2003           3 ThinkVision S27i-10                                                                                         2019 27-SEP-19          1        310                               
+      3001           5 LG RAM 4GB                                                                                                  2017 01-MAR-20          1        100                               
+      3002           5 HP RAM 8GB                                                                                                  2015 13-JUL-20          1        125                               
+      3003           5 LENEVO 8GB                                                                                                  2018 27-SEP-19          1        115                               
+
+9 rows selected. 
+
+
+SELECT * FROM user_tabs_cols WHERE table_name = 'PRODUCT'
+
+MODIFY COLUN
+
+ALTER TABLE product MODIFY PRICE NUMBER(9,2); -- SSMS DID NOT LIKE LOWER CASE PRODUCT TABLE NAME. QUEORY WAS ACCEPTED WIT CAPS.
+
+ALTER TABLE PRODUCT MODIFY PRICE NUMBER(9,2);
+
+Table PRODUCT altered.
+
+how to truncate a table: 
+
+-- REMOVES THE DATA FROM THE TABLE 
+
+TRUNCATE TABLE PRODUCT
+
+Table PRODUCT truncated.
+
+truncate will format the blocks  
+
+now delete: 
+
+DELETE FROM product
+
+
+
+0 rows deleted.
+
+drop a column: 
+
+how to rename a column: 
+
+ALTER TABLE product RENAME year_of_man NUMBER (9,2);
