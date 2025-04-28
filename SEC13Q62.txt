@@ -52,3 +52,65 @@ drop a column:
 how to rename a column: 
 
 ALTER TABLE product RENAME year_of_man NUMBER (9,2);
+
+add a column to a table: 
+
+ALTER TABLE product ADD CREATED_BY VARCHAR(30);
+
+modify price column: 
+ALTER TABLE product MODIFY price NUMBER(9,2); 
+output: Table PRODUCT altered.
+
+SELECT * FROM user_tab_cols WHERE table_name = 'product'
+
+How to Truncate a table: 
+
+TRUNCATE TABLE product 
+
+
+now we are going to detele : 
+
+DELETE FROM product 
+
+ TRUNCATE FORMAT  delete doesn't 
+ 
+ rename and drop column : 
+ ALTER TABLE product RENAME year_of_man TO YEAR_OF_MANUFACTURE;
+ 
+ ALTER TABLE product RENAME COLUMN YEAR_OF_MAN to YEAR_MANUFACTURE;
+ 
+ 
+ 9 rows selected. 
+
+
+   PROD_ID PROD_CAT_ID PROD_DESC                                                                                            YEAR_MANUFACTURE DATE_OF_M       UNIT      PRICE CREATED_BY                    
+---------- ----------- ---------------------------------------------------------------------------------------------------- ---------------- --------- ---------- ---------- ------------------------------
+      1001           1 Acer Laptops 1.1                                                                                                 2020 01-MAR-20          1       1200                               
+      1002           1 DELL Vostro 15 3501                                                                                              2020 13-JUL-20          1       1500                               
+      1003           1 HP 15S-du0094tu                                                                                                  2019 27-SEP-19          1       1450                               
+      2001           3 LG LED 7.1                                                                                                       2020 01-MAR-20          1        250                               
+      2002           3 HP 21.5-inch Full HD Monitor                                                                                     2020 13-JUL-20          1        300                               
+      2003           3 ThinkVision S27i-10                                                                                              2019 27-SEP-19          1        310                               
+      3001           5 LG RAM 4GB                                                                                                       2017 01-MAR-20          1        100                               
+      3002           5 HP RAM 8GB                                                                                                       2015 13-JUL-20          1        125                               
+      3003           5 LENEVO 8GB                                                                                                       2018 27-SEP-19          1        115                               
+
+9 rows selected. 
+
+ 
+ ALTER table product MODIY price NUMBER(9,2)
+ 
+ NOW DROP A COLUMN: 
+ 
+ ALTER TABLE product DROP COLUMN YEAR_OF_MANUFACTURE
+ 
+ ALTER TABL product  SET UNUSED (CREATED_BY); 
+ 
+ 
+ TO RENAME A TABLE: 
+ 
+  RENAME product TO customer_product
+  
+  drop a tableL 
+  
+  DROP table customer_product
