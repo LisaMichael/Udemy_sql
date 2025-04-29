@@ -1,0 +1,306 @@
+ APRIL 28, 2025 
+ 
+  inserting into database: 
+  
+  INSERT INTO emp (EMPNO, ENAME, JOB, mgr, HIREDATE,SAL,COMM, DEPTNO) VALUES
+(1001, 'John', 'Manager', 7839, TO_DATE('01-07-2020', 'DD-MM-YYYY'), 1500, 300,10)
+
+output: 1 row inserted.
+
+SELECT * FROM emp 
+
+output: 
+
+EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH                CLERK           7902 17-DEC-80        800                    20
+      7499 ALLEN                SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD                 SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES                MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN               SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE                MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK                MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT                ANALYST         7566 19-APR-87       3000                    20
+      7839 KING                 PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER               SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS                CLERK           7788 23-MAY-87       1100                    20
+
+     EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7900 JAMES                CLERK           7698 03-DEC-81        950                    30
+      7902 FORD                 ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER               CLERK           7782 23-JAN-82       1300                    10
+      1001 John                 Manager         7839 01-JUL-20       1500        300         10
+
+15 rows selected. 
+
+
+
+also,  user_tabs_cols  column was not working but i am able to display it using: 
+
+SELECT * FROM user_tabs_cols  
+(too lARGE to display) 
+
+lets aDD another row, 
+
+This was giving me and error. 
+Here is the error: 
+Error starting at line : 1 in command -
+INSERT INTO emp (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) VALUES 
+(1001, 'Hari','MANAGER', 7839, SYSDATE, 1700,500,30)
+Error report -
+ORA-00001: unique constraint (SYSTEM.PK_EMP) violated
+
+
+INSERT INTO emp (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) VALUES 
+(1001, 'Hari','MANAGER', 7839,SYSDATE, 1700,500,30);
+
+error: 
+
+Error starting at line : 1 in command -
+INSERT INTO emp (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) VALUES 
+(1001, 'Hari','MANAGER', 7839, SYSDATE, 1700,500,30)
+Error report -
+ORA-00001: unique constraint (SYSTEM.PK_EMP) violated
+
+
+The error is because employee no 1001 already exists. So , lets create the empno as 1002
+
+INSERT INTO emp (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) VALUES
+( 1002, 'Hari', 'MANAGER', 7839,SYSDATE, 1700, 500, 30);
+
+
+
+After correction, here is the output: 
+
+SELECT * FROM emp
+
+output: 
+
+    EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH                CLERK           7902 17-DEC-80        800                    20
+      7499 ALLEN                SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD                 SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES                MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN               SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE                MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK                MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT                ANALYST         7566 19-APR-87       3000                    20
+      7839 KING                 PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER               SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS                CLERK           7788 23-MAY-87       1100                    20
+
+     EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7900 JAMES                CLERK           7698 03-DEC-81        950                    30
+      7902 FORD                 ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER               CLERK           7782 23-JAN-82       1300                    10
+      1001 John                 Manager         7839 01-JUL-20       1500        300         10
+      1002 Hari                 MANAGER         7839 28-APR-25       1700        500         30
+
+16 rows selected. 
+
+COMMIT
+
+Commit complete.
+
+
+Lets check out the database and see our records we added:  (new records are at the bottom) : 
+
+SELECT * FROM emp
+
+    EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH                CLERK           7902 17-DEC-80        800                    20
+      7499 ALLEN                SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD                 SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES                MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN               SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE                MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK                MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT                ANALYST         7566 19-APR-87       3000                    20
+      7839 KING                 PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER               SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS                CLERK           7788 23-MAY-87       1100                    20
+
+     EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7900 JAMES                CLERK           7698 03-DEC-81        950                    30
+      7902 FORD                 ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER               CLERK           7782 23-JAN-82       1300                    10
+      1001 John                 Manager         7839 01-JUL-20       1500        300         10
+      1002 Hari                 MANAGER         7839 28-APR-25       1700        500         30
+
+16 rows selected. 
+
+BONUS: I changed the order of the empno column. This was not in the lesson but hey. why not. lol
+
+SELECT * FROM emp ORDER BY empno
+
+    EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      1001 John                 Manager         7839 01-JUL-20       1500        300         10
+      1002 Hari                 MANAGER         7839 28-APR-25       1700        500         30
+      7369 SMITH                CLERK           7902 17-DEC-80        800                    20
+      7499 ALLEN                SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD                 SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES                MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN               SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE                MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK                MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT                ANALYST         7566 19-APR-87       3000                    20
+      7839 KING                 PRESIDENT            17-NOV-81       5000                    10
+
+     EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7844 TURNER               SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS                CLERK           7788 23-MAY-87       1100                    20
+      7900 JAMES                CLERK           7698 03-DEC-81        950                    30
+      7902 FORD                 ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER               CLERK           7782 23-JAN-82       1300                    10
+
+16 rows selected. 
+
+
+-- update -- increase the salary of everyone in dept 10
+
+this was me: wrong: 
+update emp SET sal = sal *.1 + sal
+
+CORRECT: 
+UPDATE emp SET sal = sal * (1+(10/100)) WHERE deptno = 10
+
+OUTPUT: 
+4 rows updated.
+
+    EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH                CLERK           7902 17-DEC-80        800                    20
+      7499 ALLEN                SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD                 SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES                MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN               SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE                MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK                MANAGER         7839 09-JUN-81       2695                    10
+      7788 SCOTT                ANALYST         7566 19-APR-87       3000                    20
+      7839 KING                 PRESIDENT            17-NOV-81       5500                    10
+      7844 TURNER               SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS                CLERK           7788 23-MAY-87       1100                    20
+
+     EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7900 JAMES                CLERK           7698 03-DEC-81        950                    30
+      7902 FORD                 ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER               CLERK           7782 23-JAN-82       1430                    10
+      1001 John                 Manager         7839 01-JUL-20       1650        300         10
+      1002 Hari                 MANAGER         7839 28-APR-25       1700        500         30
+
+16 rows selected. 
+
+1001 john , salary was 1500 and is now: 1650
+
+
+lets delete records now 
+
+DELETE FROM emp WHERE empno IN (1002,1001);
+DELETE FROM emp WHERE deptno IN (10,20); 
+
+OUTPUT: 
+2 rows deleted.
+
+
+8 rows deleted.
+
+    EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN                SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD                 SALESMAN        7698 22-FEB-81       1250        500         30
+      7654 MARTIN               SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE                MANAGER         7839 01-MAY-81       2850                    30
+      7844 TURNER               SALESMAN        7698 08-SEP-81       1500          0         30
+      7900 JAMES                CLERK           7698 03-DEC-81        950                    30
+
+6 rows selected. 
+
+
+I deleted rows 1001 and 1002 
+and deleted 10 and 20 
+
+we reinstered the values back in from the database script.
+
+created a database: 
+
+CREATE TABLE emp_test AS SELECT * FROM emp
+Table EMP_TEST created.
+
+lets display the table we created
+SELECT * FROM emp_test
+
+    EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN                SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD                 SALESMAN        7698 22-FEB-81       1250        500         30
+      7654 MARTIN               SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE                MANAGER         7839 01-MAY-81       2850                    30
+      7844 TURNER               SALESMAN        7698 08-SEP-81       1500          0         30
+      7900 JAMES                CLERK           7698 03-DEC-81        950                    30
+      7369 SMITH                CLERK           7902 17-DEC-80        800                    20
+      7566 JONES                MANAGER         7839 02-APR-81       2975                    20
+      7782 CLARK                MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT                ANALYST         7566 19-APR-87       3000                    20
+      7839 KING                 PRESIDENT            17-NOV-81       5000                    10
+
+     EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7876 ADAMS                CLERK           7788 23-MAY-87       1100                    20
+      7902 FORD                 ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER               CLERK           7782 23-JAN-82       1300                    10
+
+14 rows selected. 
+
+
+-- making some modifications to the database ... 
+
+DELETE FROM emp WHERE deptno = 10
+
+3 rows deleted.
+
+
+UPDATE emp SET sal = sal +30
+
+11 rows updated.
+
+-- IMPORTANT TABLE . CAN BE USED IN DAY TO DAY WORK
+
+MERGE INTO emp e1
+USING emp_test e2 ON (e1.empno = e2.empno)
+WHEN MATCHED THEN
+UPDATE SET e1.sal = e2.sal
+WHEN NOT MATCHED THEN 
+INSERT(e1.EMPNO,e1.ENAME,e1.JOB,e1.MGR,e1.HIREDATE,e1.SAL,e1.COMM,e1.DEPTNO)
+values(e2.EMPNO,e2.ENAME,e2.JOB,e2.MGR,e2.HIREDATE,e2.SAL,e2.COMM,e2.DEPTNO)
+
+14 rows merged.
+
+   EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7782 CLARK                MANAGER         7839 09-JUN-81       2450                    10
+      7499 ALLEN                SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD                 SALESMAN        7698 22-FEB-81       1250        500         30
+      7934 MILLER               CLERK           7782 23-JAN-82       1300                    10
+      7654 MARTIN               SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE                MANAGER         7839 01-MAY-81       2850                    30
+      7839 KING                 PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER               SALESMAN        7698 08-SEP-81       1500          0         30
+      7900 JAMES                CLERK           7698 03-DEC-81        950                    30
+      7369 SMITH                CLERK           7902 17-DEC-80        800                    20
+      7566 JONES                MANAGER         7839 02-APR-81       2975                    20
+
+     EMPNO ENAME                JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- -------------------- --------- ---------- --------- ---------- ---------- ----------
+      7788 SCOTT                ANALYST         7566 19-APR-87       3000                    20
+      7876 ADAMS                CLERK           7788 23-MAY-87       1100                    20
+      7902 FORD                 ANALYST         7566 03-DEC-81       3000                    20
+
+14 rows selected. 
