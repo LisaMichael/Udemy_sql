@@ -1,0 +1,228 @@
+TRANSACTION
+A transaction is a logical, atomic unit of work that contains one or more SQL statemetnt
+
+ACID
+Atomic - A single unit of operation 
+Consistent - DB should move from one consistent state to another 
+Isolation: It should be executed in insolation from other transactions
+
+durability: Change in DB should persist even database failure
+
+commit: Commit command permanently saves any transaction into the database.
+
+rollback: The command restores the database to the last committed state. 
+
+TO SAVE-POINT: SAVEPOINT command is used to temporarily save a transaction so that you can rollback to that point whenever required. 
+
+
+SELECT * FROM account_saving
+
+CREATE TABLE (ACCOUNTID NUMBER(5),
+NAME VARCHAR(20),
+BALANCE NUMBER (5,2))
+
+I was not able to locate the script to generate my tables for the exercise. 
+I just created my own: 
+
+500
+CREATE TABLE acct_saving (ACCOUNTID NUMBER(5),
+NAME VARCHAR(20),
+BALANCE NUMBER (5,2));
+
+CREATE TABLE acct_checking (ACCOUNTID NUMBER(5),
+NAME VARCHAR(20),
+BALANCE NUMBER (5,2));
+
+Table ACCT_SAVING created.
+
+
+Table ACCT_CHECKING created.
+
+SELECT * FROM ACCT_SAVING
+
+no rows selected
+
+let's add some records 
+
+INSERT INTO acct_saving VALUES (1, 'Ram',1000),(2,'Hari',500);
+
+
+INSERT INTO acct_saving (accountid, name, balance) VALUES (1, 'Ram',1000),(2,'Hari',500);
+
+INSERT INTO acct_saving
+VALUES (1, 'Ram',1000);
+
+I'm gonna alter the balance column 
+
+ALTER account_saving MODIFY balance NUMBER(6);
+
+error: 
+
+Error starting at line : 1 in command -
+INSERT INTO acct_saving
+VALUES (1, 'Ram',1000)
+Error at Command Line : 2 Column : 18
+Error report -
+SQL Error: ORA-01438: value larger than specified precision allowed for this column
+
+this works : 
+
+INSERT INTO acct_saving
+VALUES (1, 'Ram',100);
+
+1 row inserted.
+
+
+ ACCOUNTID NAME                    BALANCE
+---------- -------------------- ----------
+         1 Ram                         100
+		
+
+I need to modify the column balance 
+
+ALTER TABLE acct_saving MODIFY balance NUMBER(9,2);
+
+Table ACCT_SAVING altered.
+
+
+lets do the other database: 
+
+ALTER TABLE acct_checking MODIFY balance NUMBER(9,2);
+Table ACCT_CHECKING altered.
+
+
+I added a new record: 
+INSERT INTO acct_saving
+VALUES (2, 'Hari',2000);
+
+1 row inserted.
+
+SHOW * FROM acct_saving
+
+ ACCOUNTID NAME                    BALANCE
+---------- -------------------- ----------
+         1 Ram                         100
+         2 Hari                       2000
+		 
+
+YAYYYY  !!! I CREATED THE TABLE AND ROWS AND EVEN MODIFIED THE COLUMN SIZE ON MY OWN !!! 
+
+BACK TO YOUR PREVIOUSLY SCHEDULED PROGRAMMING .... 
+
+add a record into acct_checking : 
+INSERT INTO acct_checking VALUES (2, 'Hari', 1000);
+
+1 row inserted.
+
+SELECT * FROM acct_checking
+
+ ACCOUNTID NAME                    BALANCE
+---------- -------------------- ----------
+         2 Hari                       1000
+		 
+		 
+	now commit: 
+	
+Commit
+Commit complete.
+
+UPDATE acct_saving SET balance = balance + 200 WHERE accountid = 1;
+
+1 row updated.
+
+Select * FROM  acct_saving
+
+output: 
+ ACCOUNTID NAME                    BALANCE
+---------- -------------------- ----------
+         1 Ram                         300
+         2 Hari                       2000
+		 
+	
+	-- update account 2 in checking database: 
+UPDATE acct_checking SET balance = balance + 100 WHERE accountid = 2;
+
+1 row updated.
+
+SELECT * FROM acct_checking
+
+
+ ACCOUNTID NAME                    BALANCE
+---------- -------------------- ----------
+         2 Hari                       1100
+		 
+
+-- insert into the journaling databaes  :
+
+INSERT INTO acct_journal values ('OT',1,2,100);
+
+now to use ROLLBACK 
+
+UPDATE acct_saving SET balance = balance - 200 WHERE accountid = 1 ; 
+
+1 row updated.
+
+SHOW * FROM acct_saving
+ ACCOUNTID NAME                    BALANCE
+---------- -------------------- ----------
+         1 Ram                         100
+         2 Hari                       2000
+		 
+
+ROLLBACK
+
+output: 
+
+Rollback complete.
+
+ACCOUNTID NAME                    BALANCE
+---------- -------------------- ----------
+         1 Ram                         100
+         2 Hari                       2000
+		 
+		 
+UPDATE acct_saving SET balance = balance - 200 WHERE accountid = 1 ; 
+
+1 row updated.
+
+UPDATE acct_saving SET balance = balance + 200 WHERE accountid = 2 ; 
+
+1 row updated.
+
+SELECT * FROM acct_saving
+
+ ACCOUNTID NAME                    BALANCE
+---------- -------------------- ----------
+         1 Ram                        -100
+         2 Hari                       2200
+		 
+	SAVEPOINT A;
+	
+	Savepoint created.
+	
+	INSERT INTO acct_journal values ('OT',1 ,2 ,200);
+	
+ROLLBACK to A;
+
+Rollback complete.
+
+SELECT * FROM acct_saving
+
+
+ ACCOUNTID NAME                    BALANCE
+---------- -------------------- ----------
+         1 Ram                        -100
+         2 Hari                       2200
+		 
+		 
+		 
+	SELECT * FROM acct_checking
+	
+		ACCOUNTID NAME                    BALANCE
+---------- -------------------- ----------
+         2 Hari                       1000
+
+
+commit
+
+Commit complete.
