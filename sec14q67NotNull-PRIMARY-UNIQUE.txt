@@ -1,0 +1,137 @@
+Constraint is to enforce intgrity of data.
+
+NOT NULL: prohibits a database value from being null
+
+UNIQUE:  prohibits multiple rows rom having the same value in the same column
+UNIQUE CAN BE NULLABLE 
+
+PRIMARY KEY : combines a NOT NULL constraint and a unique consraint in a single declaration 
+
+FOREIGN KEY:  requires values in one table to math values in another table 
+
+CHECK:  requires a value in the database to comply with a specified condition. 
+
+
+CREATE TABLE EMP
+   (EMPNO       NUMBER(4)     CONSTRAINT PK_EMP PRIMARY KEY,
+    ENAME 	 	VARCHAR2(10)  NOT NULL,
+    EMAIL_ID    VARCHAR2(30)  CONSTRAINT UK_EMAIL UNIQUE,
+    JOB 	    VARCHAR2(9),
+    MGR 	 	NUMBER(4),
+    HIREDATE 	DATE          CONSTRAINT  CHK_HIREDATE CHECK (HIREDATE >= TO_DATE('01-01-2015','DD-MM-YYYY')),
+    SAL 	 	NUMBER(7,2)   NOT NULL,
+    COMM 	 	NUMBER(7,2),
+    DEPTNO 	 	NUMBER(2)     CONSTRAINT FK_DEPTNO REFERENCES DEPT( deptno)
+);
+
+
+
+INSERT INTO emp VALUES(7371, 'JOHN','john@company.com', 'CLERK', 7902, TO_DATE
+('17-12-2016', 'dd-mm-yyyy'), 1000, NULL,30); 
+
+++++++++++++++++++++++++
+
+salary cannot be null and throws an error: 
+
+INSERT INTO emp VALUES(7377, 'JOE','joecool@company.com', 'MANAGER', 7902, TO_DATE
+('17-12-2016', 'dd-mm-yyyy'), NULL, NULL,30);
+
+ERRORl 
+
+Error at Command Line : 2 Column : 31
+Error report -
+SQL Error: ORA-01400: cannot insert NULL into ("SYSTEM"."EMP"."SAL")
+
+
+- Make sure users name and email address is uniquue: 
+
+INSERT INTO emp VALUES(7370, 'king','king@company.com', 'MANAGER', 7902, TO_DATE
+('17-12-2016', 'dd-mm-yyyy'),2000, NULL,30);
+
+We added scott: 
+INSERT INTO emp VALUES(7375, 'scott','scott@company.com', 'MANAGER', 7902, TO_DATE
+('17-12-2016', 'dd-mm-yyyy'),1200, NULL,20);
+
+-- CHECK CONTRAINT ERROR WHEN DATE IS BEFORE 1980 : 
+
+INSERT INTO emp VALUES(7373, 'miller','miller@company.com', 'MANAGER', 7902, TO_DATE
+('17-12-1880', 'dd-mm-yyyy'),1200, NULL,20);
+
+Error starting at line : 1 in command -
+INSERT INTO emp VALUES(7373, 'miller','miller@company.com', 'MANAGER', 7902, TO_DATE
+('17-12-1880', 'dd-mm-yyyy'),1200, NULL,20)
+Error report -
+ORA-02290: check constraint (SYSTEM.CHK_HIREDATE) violated
+
+
+eRROR when i try to insert a row with dept greater than 30 : 
+
+Error starting at line : 2 in command -
+INSERT INTO emp VALUES(7373, 'BLACK','BLACK@company.com', 'MANAGER', 7902, TO_DATE
+('17-12-1880', 'dd-mm-yyyy'),1200, NULL,60)
+Error report -
+ORA-02290: check constraint (SYSTEM.CHK_HIREDATE) violated
+
+
+now to write differently. 
+
+lets drop the table and recreate it. 
+
+
+DROP TABLE EMP
+
+AND CREATE A NEW TABLE  WITH NO CONSTRAINTS
+
+CREATE TABLE EMP
+   (EMPNO       NUMBER(4) ,    
+    ENAME 	 	VARCHAR2(10) , 
+    EMAIL_ID    VARCHAR2(30) , 
+    JOB 	    VARCHAR2(9),
+    MGR 	 	NUMBER(4),
+    HIREDATE 	DATE        ,  
+    SAL 	 	NUMBER(7,2)   ,
+    COMM 	 	NUMBER(7,2),
+    DEPTNO 	 	NUMBER(2)
+);
+
+
+To create the primary key, out side of the table, use the command: 
+
+ALTER TABLE emp ADD Constraint pk_EMP PRIMARY KEY (empno);
+
+Table EMP altered.
+
+Lets create a unique key for email id: 
+
+ALTER TABLE emp ADD Constraint uk_EMP UNIQUE (EMAIL_ID);
+
+Table EMP altered.
+
+NEXT TYPE OF KEY : NOT NULL  (SALARY NOT NULL) 
+
+ALTER TABLE emp MODIFY SAL NUMBER(7,2) NOT NULL;
+
+ALTER TABLE emp ADD CONSTRAINT chk_hiredate CHECK (HIREDATE >= TO_DATE('01-01-1900', 'DD-MM-YYYY'));
+
+Table EMP altered.
+
+FOREIGN KEY: 
+ALTER TABLE emp ADD CONSTRAINT fk_DEPTNO FOREIGN KEY (deptno) REFERENCES dept (deptno);
+
++++++++++++++++++++++++++++++++++++
+drop or disable a constraint: 
+
+ALTER TABLE emp DROP CONSTRAINT fk_DEPTNO
+ALTER TABLE emp DISABLE CONSTRAINT fk_DEPTNO;
+
+lets drop the constraint on the hiring date: 
+
+ALTER TABLE emp DROP CONSTRAINT chk_hiredate;
+
+output: Table EMP altered.
+
+TO disable constraint: 
+ALTER TABLE emp DISABLE CONSTRAINT chk_hiredate;
+
+TO ENABLE: 
+ALTER TABLE emp ENABLEABLE CONSTRAINT chk_hiredate;
