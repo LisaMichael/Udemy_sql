@@ -1,0 +1,104 @@
+SIMPLE AND COMPLEX VIEWS 
+
+Complex view is created using a single table or muliple tlabe.
+In single table data is summarized on one or more columns. 
+
+
+EX: 
+
+Lets view the data from the employee table: 
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+
+14 rows selected.
+
+simple view 
+
+CREATE OR REPLACE VIEW v_emp AS SELECT * FROM emp WHERE deptno IN (10,20);
+View V_EMP created.
+
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+
+8 rows selected. 
+
+complex view : 
+
+CREATE OR REPLACE VIEW v_emp_dept_sal AS SELECT deptno, SUM(sal) sum_sal FROM emp GROUP BY deptno;
+
+View V_EMP_DEPT_SAL created.
+
+SELECT * FROM v_emp_dept_sal
+
+    DEPTNO    SUM_SAL
+---------- ----------
+        30       9400
+        20      10875
+        10       8750
+		
+		
+view is created with an agregate based upon the departments  .... even if its created from a single table. 
+
+how to create using muliple tables: 
+
+CREATE OR REPLACE VIEW  v_emp AS SELECT e.*, d.loc FROM emp e, dept d WHERE e.deptno = d.deptno 
+
+View V_EMP created.
+
+SELECT * FROM v_emp
+
+    EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO LOC          
+---------- ---------- --------- ---------- --------- ---------- ---------- ---------- -------------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30 CHICAGO      
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30 CHICAGO      
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20 BOSTON       
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30 CHICAGO      
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30 CHICAGO      
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20 BOSTON       
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10 NEW YORK     
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30 CHICAGO      
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10 NEW YORK     
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20 BOSTON       
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30 CHICAGO      
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO LOC          
+---------- ---------- --------- ---------- --------- ---------- ---------- ---------- -------------
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20 BOSTON       
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10 NEW YORK     
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20 BOSTON       
+
+14 rows selected. 
+
+
+
+
+Its called a complex view because data has come from more than one table. 
