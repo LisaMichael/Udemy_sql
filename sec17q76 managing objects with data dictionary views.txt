@@ -1,0 +1,304 @@
+Data Dictionary Views 
+
+Which is a read only set of tables that provides information about the database. 
+
+These tables cannot be updated. 
+
+SELECT * FROM user_tables
+
+too much data to paste 
+
+
+SELECT SEGMENT_NAME BYTES(1024*1024) MBs FROM user_segments WHERE segment_name = 'EMPLOYEE'
+
+SELECT SEGMENT_NAME, BYTES/(1024*1024) MBs FROM user_segments WHERE segment_name = 'EMPLOYEE'
+
+SEGMENT_NAME                                                                                                                            MBS
+-------------------------------------------------------------------------------------------------------------------------------- ----------
+EMPLOYEE                                                                                                                              .0625
+
+
+
+SELECT * FROM user_tab_cols WHERE TABLE_NAME = 'BONUS'
+
+BONUS	ENAME	VARCHAR2			10			Y	1			0			0	0	0	26-APR-25		CHAR_CS	10	YES	NO	0	10	B	NO	YES	NO	NO	1	1	NONE	ENAME	YES	NO	NO				USING_NLS_COMP	
+BONUS	JOB	VARCHAR2			9			Y	2			0			0	0	0	26-APR-25		CHAR_CS	9	YES	NO	0	9	B	NO	YES	NO	NO	2	2	NONE	JOB	YES	NO	NO				USING_NLS_COMP	
+BONUS	SAL	NUMBER			22			Y	3			0			0	0	0	26-APR-25				YES	NO	0	0		NO	YES	NO	NO	3	3	NONE	SAL	YES	NO	NO					
+BONUS	COMM	NUMBER			22			Y	4			0			0	0	0	26-APR-25				YES	NO	0	0		NO	YES	NO	NO	4	4	NONE	COMM	YES	NO	NO		
+
+
+
+DATA DICTIONARY VIEWS 
+
+PREFIXED WITH: 
+USER  : USER VIEW (WHATS IN THE USER SCHEMA ) 
+ALL  : 	 EXPANDED USER'S VIEW (WHAT THE USER CAN SEE) 
+DBA : 	 DATABASE ADMINISTRATORS VIEW (WHAT IS IN ALL THE USERS SCHEMA) 
+
+
+SELECT table_name FROM user_tables;
+
+
+TABLE_NAME                                                                                                                      
+--------------------------------------------------------------------------------------------------------------------------------
+LOGMNR_SESSION_EVOLVE$
+LOGMNR_GLOBAL$
+LOGMNR_PDB_INFO$
+LOGMNR_DID$
+LOGMNR_UID$
+LOGMNRGGC_GTLO
+LOGMNRGGC_GTCS
+LOGMNRC_DBNAME_UID_MAP
+LOGMNR_LOG$
+LOGMNR_PROCESSED_LOG$
+LOGMNR_SPILL$
+
+TABLE_NAME                                                                                                                      
+--------------------------------------------------------------------------------------------------------------------------------
+LOGMNR_AGE_SPILL$
+LOGMNR_RESTART_CKPT_TXINFO$
+LOGMNR_ERROR$
+LOGMNR_RESTART_CKPT$
+LOGMNR_FILTER$
+LOGMNR_SESSION_ACTIONS$
+LOGMNR_PARAMETER$
+LOGMNR_SESSION$
+LOGMNR_PROFILE_TABLE_STATS$
+LOGMNR_PROFILE_PLSQL_STATS$
+REDO_DB
+
+TABLE_NAME                                                                                                                      
+--------------------------------------------------------------------------------------------------------------------------------
+REDO_LOG
+ROLLING$CONNECTIONS
+ROLLING$DATABASES
+ROLLING$DIRECTIVES
+ROLLING$EVENTS
+ROLLING$PARAMETERS
+ROLLING$PLAN
+ROLLING$STATISTICS
+ROLLING$STATUS
+MVIEW$_ADV_WORKLOAD
+MVIEW$_ADV_BASETABLE
+
+TABLE_NAME                                                                                                                      
+--------------------------------------------------------------------------------------------------------------------------------
+MVIEW$_ADV_SQLDEPEND
+MVIEW$_ADV_PRETTY
+MVIEW$_ADV_TEMP
+MVIEW$_ADV_FILTER
+MVIEW$_ADV_LOG
+MVIEW$_ADV_FILTERINSTANCE
+MVIEW$_ADV_LEVEL
+MVIEW$_ADV_ROLLUP
+MVIEW$_ADV_AJG
+MVIEW$_ADV_FJG
+MVIEW$_ADV_GC
+
+TABLE_NAME                                                                                                                      
+--------------------------------------------------------------------------------------------------------------------------------
+MVIEW$_ADV_CLIQUE
+MVIEW$_ADV_ELIGIBLE
+MVIEW$_ADV_OUTPUT
+MVIEW$_ADV_EXCEPTIONS
+MVIEW$_ADV_PARAMETERS
+MVIEW$_ADV_INFO
+MVIEW$_ADV_JOURNAL
+MVIEW$_ADV_PLAN
+AQ$_QUEUE_TABLES
+AQ$_KEY_SHARD_MAP
+AQ$_QUEUES
+
+TABLE_NAME                                                                                                                      
+--------------------------------------------------------------------------------------------------------------------------------
+AQ$_SCHEDULES
+AQ$_INTERNET_AGENTS
+AQ$_INTERNET_AGENT_PRIVS
+SCHEDULER_PROGRAM_ARGS_TBL
+SCHEDULER_JOB_ARGS_TBL
+LOGSTDBY$PARAMETERS
+LOGSTDBY$EVENTS
+LOGSTDBY$APPLY_MILESTONE
+LOGSTDBY$SCN
+LOGSTDBY$FLASHBACK_SCN
+LOGSTDBY$PLSQL
+
+TABLE_NAME                                                                                                                      
+--------------------------------------------------------------------------------------------------------------------------------
+LOGSTDBY$SKIP_TRANSACTION
+LOGSTDBY$SKIP
+LOGSTDBY$SKIP_SUPPORT
+LOGSTDBY$HISTORY
+LOGSTDBY$EDS_TABLES
+REPL_VALID_COMPAT
+REPL_SUPPORT_MATRIX
+SQLPLUS_PRODUCT_PROFILE
+HELP
+DEPT
+EMP_JOIN
+
+TABLE_NAME                                                                                                                      
+--------------------------------------------------------------------------------------------------------------------------------
+BONUS
+SALGRADE
+TEST_NULL
+EMP_STR
+CUSTOMERS
+MV_KILOMETRE
+A
+B
+EMPLOYEE
+FRUITS
+PRIME_TABLE
+
+TABLE_NAME                                                                                                                      
+--------------------------------------------------------------------------------------------------------------------------------
+ACCOUNTS
+COUNTRY
+CINEMA_TICKET
+PRODUCT_CATAGORY
+EMP_TEST
+ACCT_SAVING
+ACCT_CHECKING
+EMP
+TABLE_WITH_INDEX
+TABLE_WITHOUT_INDEX
+LOGMNR_GT_TAB_INCLUDE$
+
+TABLE_NAME                                                                                                                      
+--------------------------------------------------------------------------------------------------------------------------------
+LOGMNR_GT_USER_INCLUDE$
+LOGMNR_GT_XID_INCLUDE$
+LOGMNRT_MDDL$
+OL$
+OL$HINTS
+OL$NODES
+LOGMNR_DICTSTATE$
+LOGMNRC_GTLO
+LOGMNRC_GTCS
+LOGMNRC_SEQ_GG
+LOGMNRC_CON_GG
+
+TABLE_NAME                                                                                                                      
+--------------------------------------------------------------------------------------------------------------------------------
+LOGMNRC_CONCOL_GG
+LOGMNRC_IND_GG
+LOGMNRC_INDCOL_GG
+LOGMNRC_SHARD_TS
+LOGMNRC_TSPART
+LOGMNRC_TS
+LOGMNRC_GSII
+LOGMNRC_GSBA
+LOGMNRC_USER
+LOGMNR_SEED$
+LOGMNR_DICTIONARY$
+
+TABLE_NAME                                                                                                                      
+--------------------------------------------------------------------------------------------------------------------------------
+LOGMNR_OBJ$
+LOGMNR_TAB$
+LOGMNR_COL$
+LOGMNR_ATTRCOL$
+LOGMNR_TS$
+LOGMNR_IND$
+LOGMNR_USER$
+LOGMNR_TABPART$
+LOGMNR_TABSUBPART$
+LOGMNR_TABCOMPART$
+LOGMNR_TYPE$
+
+TABLE_NAME                                                                                                                      
+--------------------------------------------------------------------------------------------------------------------------------
+LOGMNR_COLTYPE$
+LOGMNR_ATTRIBUTE$
+LOGMNR_LOB$
+LOGMNR_CON$
+LOGMNR_CONTAINER$
+LOGMNR_CDEF$
+LOGMNR_CCOL$
+LOGMNR_ICOL$
+LOGMNR_LOBFRAG$
+LOGMNR_INDPART$
+LOGMNR_INDSUBPART$
+
+TABLE_NAME                                                                                                                      
+--------------------------------------------------------------------------------------------------------------------------------
+LOGMNR_INDCOMPART$
+LOGMNR_LOGMNR_BUILDLOG
+LOGMNR_NTAB$
+LOGMNR_OPQTYPE$
+LOGMNR_SUBCOLTYPE$
+LOGMNR_KOPM$
+LOGMNR_PROPS$
+LOGMNR_ENC$
+LOGMNR_REFCON$
+LOGMNR_IDNSEQ$
+LOGMNR_PARTOBJ$
+
+TABLE_NAME                                                                                                                      
+--------------------------------------------------------------------------------------------------------------------------------
+LOGMNRP_CTAS_PART_MAP
+LOGMNR_SHARD_TS
+LOGSTDBY$APPLY_PROGRESS
+PRODUCT
+
+158 rows selected. 
+
+
+
+SELECT ownertable_name FROM all_tables;
+
+too much data to paste 
+
+will only give information about users that are connected 
+ 
+ all meanswhere  we have any information , we can see that object 
+ 
+ if i connect as a different user, I see information specific to them. 
+ 
+ SELECT DISTINCT owner FROM dba_tables;
+ 
+ 
+OWNER                                                                                                                           
+--------------------------------------------------------------------------------------------------------------------------------
+SYS
+OUTLN
+SYSTEM
+DBSFWUSER
+GSMADMIN_INTERNAL
+DBSNMP
+APPQOSSYS
+XDB
+WMSYS
+OJVMSYS
+CTXSYS
+
+OWNER                                                                                                                           
+--------------------------------------------------------------------------------------------------------------------------------
+ORDSYS
+ORDDATA
+OLAPSYS
+MDSYS
+LBACSYS
+DVSYS
+AUDSYS
+
+18 rows selected. 
+
+
+
+user/ all/ dba 				description
+
+
+<Prefix>_TABLE : FIND THE TABLES 
+<Prefix>_OBJECTS: FIND ORACLE OBJECTS 
+<Prefix>_SEQUENCE : FIND THE SEQUENCE 
+<Prefix>_VIEWS : FIND THE VIEWS 
+<Prefix>_SYNONYMS : FIND THE SYNONYMS 
+<Prefix>_CONSTRAINTS : FIND THE CONSTRAINTS
+<Prefix>_TAB_COLS : FIND THE columns OF A TABLE
+DBA_ROLES : FIND ALL THE ROLES 
+<Prefix>_USERS : FIND ALL USERS
+<Prefix>_TAB_PRIVS :  FIND ALL THE TABLE PRIVILEDGES OF A USER
+<Prefix>_ROLE_PRIVS : find all the priviledges attached to role 
+
