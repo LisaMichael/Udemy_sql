@@ -1,0 +1,245 @@
+VIEW 
+
+A view is  logical reprresentation of a table or a combination of tables 
+
+
+
+
+Error starting at line : 5 in command -
+GRANT CREATE VIEW TO scott
+Error report -
+ORA-01917: user or role 'SCOTT' does not exist
+
+https://docs.oracle.com/error-help/db/ora-01917/01917. 00000 -  "user or role '%s' does not exist"
+*Cause:    A user or role by that name did not exist.
+*Action:   Re-specify the name.
+
+Error starting at line : 8 in command -
+CREATE VIEW sales_staff AS 
+SELECT empno, ename, deptno 
+FROM emp WHERE deptno = 10
+
+CREATE OR REPLACE VIEW sales_staff 
+AS SELECT empno, ename, deptno 
+FROM emp WHERE deptno = 30
+
+DROP VIEW emp_dept
+Error report -
+ORA-00933: SQL command not properly ended
+
+https://docs.oracle.com/error-help/db/ora-00933/00933. 00000 -  "unexpected keyword at or near %s"
+*Cause:    An unexpected keyword was encountered in the SQL statement at
+           or near the position printed in the error message.
+           One of the following occurred:
+           1. You had a typo in your SQL statement.
+           2. Unsupported syntax was encountered for a clause in the
+           statement.
+           3. An unsupported clause was encountered in the statement.
+           4. A string was terminated prematurely leading to the rest
+           of the string to be interpreted as keywords. For example, an
+           apostrophe in the string may be causing it to
+           end prematurely.
+*Action:   Take the action that corresponds with the Cause
+           1. Check that your SQL statement has no typos.
+           2. Check Oracle Database documentation to find the
+           correct syntax for the clause and update the problematic
+           clause appropriately.
+           3. Check Oracle Database documentation to find the correct
+           syntax for the statement and remove the unsupported clause.
+           4. Enter two single quotes instead of one to represent an
+           apostrophe within a string.
+*Params:   1) keyword_value
+           keyword near the keyword causing the error. The keyword value
+           may be truncated for readability if it is too long.
+
+View EMP_DEPT created.
+
+
+Error starting at line : 28 in command -
+SELECT * FROM all_views
+
+UPDATE emp_dept SET sal = sal * 1.10 WHERE deptno = 10
+Error at Command Line : 30 Column : 1
+Error report -
+SQL Error: ORA-00933: SQL command not properly ended
+
+https://docs.oracle.com/error-help/db/ora-00933/00933. 00000 -  "unexpected keyword at or near %s"
+*Cause:    An unexpected keyword was encountered in the SQL statement at
+           or near the position printed in the error message.
+           One of the following occurred:
+           1. You had a typo in your SQL statement.
+           2. Unsupported syntax was encountered for a clause in the
+           statement.
+           3. An unsupported clause was encountered in the statement.
+           4. A string was terminated prematurely leading to the rest
+           of the string to be interpreted as keywords. For example, an
+           apostrophe in the string may be causing it to
+           end prematurely.
+*Action:   Take the action that corresponds with the Cause
+           1. Check that your SQL statement has no typos.
+           2. Check Oracle Database documentation to find the
+           correct syntax for the clause and update the problematic
+           clause appropriately.
+           3. Check Oracle Database documentation to find the correct
+           syntax for the statement and remove the unsupported clause.
+           4. Enter two single quotes instead of one to represent an
+           apostrophe within a string.
+*Params:   1) keyword_value
+           keyword near the keyword causing the error. The keyword value
+           may be truncated for readability if it is too long.
+
+More Details :
+https://docs.oracle.com/error-help/db/ora-00933/
+
+Error starting at line : 31 in command -
+The following UPDATE statement would be allowed on the emp_dept view
+Error report -
+Unknown Command
+
+
+1 row updated.
+
+
+1 row updated.
+
+
+1 row deleted.
+
+
+4 rows deleted.
+
+
+
+
+view: 
+
+CREATE VIEW priviledge.  ---- priviledge required 
+
+CREATE VIEW sales_staff AS SELECT e.empno, e.ename, d.loc FROM emp e, dept d WHERE e.deptno = d.deptno 
+
+DRO VIEW emp_dept; 
+
+select * from dept: 
+
+    DEPTNO DNAME          LOC          
+---------- -------------- -------------
+        10 ACCOUNTING     NEW YORK     
+        20 RESEARCH       BOSTON       
+        30 SALES          CHICAGO      
+        40 OPERATIONS     BOSTON       
+        50 Finance        Bangalore    
+
+
+
+
+SELECT * FROM emp 
+
+ EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+9 rows selected. 
+
+
+lesson example: 
+
+CREATE OR REPLACE VIEW emp_loc
+AS SELECT e.empno, e.ename, d.loc FROM dept d, emp e WHERE e.deptno = d.deptno 
+
+View EMP_LOC created.
+
+SELECT * FROM emp_loc 
+
+     EMPNO ENAME      LOC          
+---------- ---------- -------------
+      7499 ALLEN      CHICAGO      
+      7521 WARD       CHICAGO      
+      7654 MARTIN     CHICAGO      
+      7698 BLAKE      CHICAGO      
+      7782 CLARK      NEW YORK     
+      7839 KING       NEW YORK     
+      7844 TURNER     CHICAGO      
+      7900 JAMES      CHICAGO      
+      7934 MILLER     NEW YORK     
+
+9 rows selected. 
+
+view is getting data at time it is run. does not take space in database. 
+
+
+Lets take everything from the employee table: 
+
+Run the command to replace the view: 
+
+CREATE OR REPLACE VIEW emp_loc
+AS SELECT e.*, d.loc FROM dept d, emp e WHERE e.deptno = d.deptno
+
+
+
+
+View EMP_LOC created.
+
+
+-- LETS DISPLAY IT : 
+
+SELECT * FROM emp_loc
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO LOC          
+---------- ---------- --------- ---------- --------- ---------- ---------- ---------- -------------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30 CHICAGO      
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30 CHICAGO      
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30 CHICAGO      
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30 CHICAGO      
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10 NEW YORK     
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10 NEW YORK     
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30 CHICAGO      
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30 CHICAGO      
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10 NEW YORK     
+
+9 rows selected. 
+
+
+-- now creating a view called dallas 
+
+CREATE OR REPLACE VIEW emp_loc_dallas
+AS SELECT e.*, d.loc FROM dept d, emp e WHERE e.deptno = d.deptno AND d.loc = 'BOSTON'
+
+View EMP_LOC_DALLAS created.
+
+SELECT * FROM emp_loc_dallas
+no rows selected
+
+CREATE OR REPLACE VIEW emp_loc_dallas
+AS SELECT e.*, d.loc FROM dept d, emp e WHERE e.deptno = d.deptno AND d.loc = 'BOSTON'
+
+LET TRY CHICAGO: 
+
+
+CREATE OR REPLACE VIEW emp_loc_chicago 
+AS SELECT e.*, d.loc FROM dept d, emp e WHERE e.deptno = d.deptno and d.loc = 'CHICAGO'
+
+View EMP_LOC_CHICAGO created.
+
+SELECT * FROM emp_loc_chicago
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO LOC          
+---------- ---------- --------- ---------- --------- ---------- ---------- ---------- -------------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30 CHICAGO      
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30 CHICAGO      
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30 CHICAGO      
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30 CHICAGO      
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30 CHICAGO      
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30 CHICAGO      
+
+6 rows selected. 
+
+drop view emp_loc_chicago
