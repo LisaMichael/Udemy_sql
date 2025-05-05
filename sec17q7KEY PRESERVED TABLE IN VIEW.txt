@@ -1,0 +1,313 @@
+Key-Preserved Tables in a view 
+
+A table is key preserved if the table key participates in the view as a key. In short, a key-preserved table has its key columns preserved through a SQL join. 
+
+TIPS: The view will be having exactly having same rows as in the table.
+
+
+HERE IS AN EXAMPLE: 
+
+LETS CREATE A VIEW: 
+
+ CREATE OR REPLACE VIEW v_emp AS SELECT e.ename, e.empno, d.loc 
+ FROM emp e, dept d WHERE e.deptno = d.deptno
+ 
+ View V_EMP created.
+ 
+ lets view it: 
+ 
+ SELECT * FROM v_emp
+ 
+ 
+ENAME           EMPNO LOC          
+---------- ---------- -------------
+ALLEN            7499 CHICAGO      
+WARD             7521 CHICAGO      
+MARTIN           7654 CHICAGO      
+BLAKE            7698 CHICAGO      
+CLARK            7782 NEW YORK     
+KING             7839 NEW YORK     
+TURNER           7844 CHICAGO      
+JAMES            7900 CHICAGO      
+MILLER           7934 NEW YORK     
+
+9 rows selected. 
+
+lets see how many are in the employee table: 
+
+SELECT * FROM emp
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+9 rows selected. 
+
+
+
+All the record keys are preserved in the view 
+
+
+LETS DELETE FROM THE VIEW: 
+
+
+DELETE FROM v_emp WHERE LOC = 'DALLAS'
+
+0 rows deleted.
+
+My script doesnt' contain dallas.  I will try a different city. lets do chicago
+
+DELETE FROM v_emp WHERE LOC = 'CHICAGO'
+
+6 rows deleted.
+
+Let look at dept table: 
+
+   DEPTNO DNAME          LOC          
+---------- -------------- -------------
+        10 ACCOUNTING     NEW YORK     
+        20 RESEARCH       BOSTON       
+        30 SALES          CHICAGO      
+        40 OPERATIONS     BOSTON       
+        50 Finance        Bangalore    
+		
+		
+Lets look at employee table: 
+
+SELECT * FROM emp
+
+    EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+	  
+	  
+NOTE, THE RECORDS WERE DELETED FROM THE EMP TABLE NOT DEPT. 
+
+.... I will re-add records to my table using scripts. 
+
+SELECT * FROM emp
+
+    EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+
+14 rows selected. 
+
+
+
+CREATE A NEW VIEW BUT EXCLUDING COMMAND AFTER WHERE 
+
+CREATE OR REPLACE VIEW v_emp AS SELECT e.ename, e.empno, d.loc
+FROM emp e, dept d --- WHERE e.deptno = d.deptno 
+
+View V_EMP created.
+
+let view v_emp: 
+
+SELECT * FROM v_emp 
+
+
+ENAME           EMPNO LOC          
+---------- ---------- -------------
+ALLEN            7499 NEW YORK     
+WARD             7521 NEW YORK     
+JONES            7566 NEW YORK     
+MARTIN           7654 NEW YORK     
+BLAKE            7698 NEW YORK     
+SCOTT            7788 NEW YORK     
+CLARK            7782 NEW YORK     
+TURNER           7844 NEW YORK     
+KING             7839 NEW YORK     
+ADAMS            7876 NEW YORK     
+JAMES            7900 NEW YORK     
+
+ENAME           EMPNO LOC          
+---------- ---------- -------------
+FORD             7902 NEW YORK     
+MILLER           7934 NEW YORK     
+SMITH            7369 NEW YORK     
+ALLEN            7499 BOSTON       
+WARD             7521 BOSTON       
+JONES            7566 BOSTON       
+MARTIN           7654 BOSTON       
+BLAKE            7698 BOSTON       
+SCOTT            7788 BOSTON       
+CLARK            7782 BOSTON       
+TURNER           7844 BOSTON       
+
+ENAME           EMPNO LOC          
+---------- ---------- -------------
+KING             7839 BOSTON       
+ADAMS            7876 BOSTON       
+JAMES            7900 BOSTON       
+FORD             7902 BOSTON       
+MILLER           7934 BOSTON       
+SMITH            7369 BOSTON       
+ALLEN            7499 CHICAGO      
+WARD             7521 CHICAGO      
+JONES            7566 CHICAGO      
+MARTIN           7654 CHICAGO      
+BLAKE            7698 CHICAGO      
+
+ENAME           EMPNO LOC          
+---------- ---------- -------------
+SCOTT            7788 CHICAGO      
+CLARK            7782 CHICAGO      
+TURNER           7844 CHICAGO      
+KING             7839 CHICAGO      
+ADAMS            7876 CHICAGO      
+JAMES            7900 CHICAGO      
+FORD             7902 CHICAGO      
+MILLER           7934 CHICAGO      
+SMITH            7369 CHICAGO      
+ALLEN            7499 BOSTON       
+WARD             7521 BOSTON       
+
+ENAME           EMPNO LOC          
+---------- ---------- -------------
+JONES            7566 BOSTON       
+MARTIN           7654 BOSTON       
+BLAKE            7698 BOSTON       
+SCOTT            7788 BOSTON       
+CLARK            7782 BOSTON       
+TURNER           7844 BOSTON       
+KING             7839 BOSTON       
+ADAMS            7876 BOSTON       
+JAMES            7900 BOSTON       
+FORD             7902 BOSTON       
+MILLER           7934 BOSTON       
+
+ENAME           EMPNO LOC          
+---------- ---------- -------------
+SMITH            7369 BOSTON       
+ALLEN            7499 Bangalore    
+WARD             7521 Bangalore    
+JONES            7566 Bangalore    
+MARTIN           7654 Bangalore    
+BLAKE            7698 Bangalore    
+SCOTT            7788 Bangalore    
+CLARK            7782 Bangalore    
+TURNER           7844 Bangalore    
+KING             7839 Bangalore    
+ADAMS            7876 Bangalore    
+
+ENAME           EMPNO LOC          
+---------- ---------- -------------
+JAMES            7900 Bangalore    
+FORD             7902 Bangalore    
+MILLER           7934 Bangalore    
+SMITH            7369 Bangalore    
+
+70 rows selected. 
+
+
+DELETE FROM v_emp WHERE LOC = 'DALLAS'
+
+Error report -
+SQL Error: ORA-01752: cannot delete from view without exactly one key-preserved table
+
+Taking only a subset of data now
+
+CREATE OR REPLACE VIEW v_emp AS SELECT e.ename, e.empno, d.loc
+FROM emp e, dept d WHERE e.deptno = d.deptno and d.loc = 'NEW YORK'
+
+View V_EMP created.
+
+SELECT * FROM v_emp 
+
+ENAME           EMPNO LOC          
+---------- ---------- -------------
+CLARK            7782 NEW YORK     
+KING             7839 NEW YORK     
+MILLER           7934 NEW YORK   
+
+let check emp
+
+ EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+
+14 rows selected. 
+
+
+
+if you delete from the v_emp view, it will delete from the employee table. 
+
+
+CREATE OR REPLACE VIEW v_emp AS SELECT e.ename, e.empno, d.loc, d.deptno
+FROM emp e, dept d WHERE e.deptno = d.deptno and d.loc = 'NEW YORK'
+
+View V_EMP created.
+
+ENAME           EMPNO LOC               DEPTNO
+---------- ---------- ------------- ----------
+CLARK            7782 NEW YORK              10
+KING             7839 NEW YORK              10
+MILLER           7934 NEW YORK              10
+
+
+DELETE FROM v_emp WHERE LOC = 'NEW YORK'
+
+3 rows deleted.
+
+   EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+
+11 rows selected. 
+
+
+if view and the table have the exact same number of records, it means the key is preserved and it will delete from the view and it will delete from the base table . 
