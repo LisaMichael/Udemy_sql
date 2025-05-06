@@ -1,0 +1,76 @@
+System and Object Priviledges
+
+Majorly 2 types of Priviledges
+- System Level 
+- Object Level 
+
+System Priviledge: 
+A system priviledge is the right to perform a particular action , or to perform an action on any schema objects of a particular type. 
+
+Object Priviledge 
+A Schema object priviledge is a priviledge or right to perform a particular action on a specific schema object
+
+
+Still having a problem creating my test user scott . 
+
+Here is the error I receive: 
+
+Oracle provides a script since the very early releases to create the scott schema. The script is called “scott.sql” and is located under $ORACLE_HOME/rdbms/admin.
+
+Error starting at line : 24 in command -
+GRANT CONNECT,RESOURCE,UNLIMITED TABLESPACE TO SCOTT IDENTIFIED BY TIGER
+Error report -
+ORA-65049: Creation of local user or role is not allowed in this container.
+
+https://docs.oracle.com/error-help/db/ora-65049/65049. 00000 -  "Creation of local user or role is not allowed in this container."
+*Cause:    An attempt was made to create a local user or role in CDB$ROOT or
+           an application root.
+
+
+
+show user
+USER is "SCOTT"
+
+CREATE CREATE TABLE to user1;    < --- system priviledge 
+
+Grant succeeded; 
+
+GRANT SELECT on EMP to user1;   <<< -- giving an object name, so it is called object priviedge  
+Grant succeeded 
+
+
+conn user1/user1
+Connected 
+
+SELECT * FROM user_tab_privs; 
+
+this displays object names 
+
+to view system priviledges: 
+
+SELECT * FROM user_tab_privs;  
+
+its about the object type 
+
+
+
+system priviledge                              object priviedge 
+GRANT CREATE TABLE TO <user>					GRANT SELECT ON <table> TO <user>
+GRANT CREATE VIEW TO <user>						GRANT SELECT ON <view name> TO <user>
+GRANT CREATE DIRECTORY TO <user>				GRANT READ ON <directory name> TO <user>
+GRANT CREATE SEQUENCE TO <user>					GRANT READ ON <sequence> TO <user>
+
+
+GRANT CREATE ANY TABLE TO <user> - Means user has priviledges to create table in any schema. 
+
+
+Find system priviedges attached a User
+SELECT * FROM USER_SYS_PRIVS
+
+Find object priviedges attached a User
+SELECT * FROM USER_TAB_PRIVS 
+
+All the priviedges of a Table - (1z0-071)
+CREATE TAble / CREATE ANY TABLE - system priviledges 
+SELECT, INSERT , UPDATE, DELETE ON <Table> - - Oject Priviledges 
+ALL ON <Table> -- oject privledges 
