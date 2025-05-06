@@ -1,0 +1,88 @@
+SEC 19 QUESTION 79 ROLES 
+
+wHAT IS A ROLE ? 
+A role is a group priviledges
+
+
+role clerk: 
+
+SELECT , INSERT, UPDATE ON emp 
+SELECT on dept 
+select on salgrade 
+select on loc 
+
+ROLE ADMIN 
+INSERT ON DEPT 
+INSERT ON salgrade
+INSERT on loc 
+
+
+What is a role? 
+find all the priviledges attached to a role
+
+
+how to create a role: 
+CREATE ROLE <role_name>
+
+Hoe to grants priviledges to a ROLE: 
+GRANT SELECT ON emp to <role name>
+GRANT SELECT ON dept to <role name>
+
+Find priviledges to a role: 
+SELECT * FROM USER_TAB_PRIVS where grantee = <role name>
+
+FIND ALL ROLES IN  A DB: 
+SELECT * FROM DBA_ROLES
+
+CREATE ROLE role_admin; 
+Role created 
+
+CREATE ROLE role_clerk
+
+GRANT INSERT, UPDATE, DELETE, SELECT on dept to role_admin;
+
+GRANT INSERT, UPDATE, DELETE, SELECT on loc to role_admin;
+
+GRANT INSERT, UPDATE, DELETE, SELECT on salgrade to role_admin;
+
+GRANT INSERT, UPDATE, DELETE, SELECT on emp to role_clerk;
+
+GRANT SELECT on dept to role_clerk;
+
+GRANT SELECT on loc to role_clerk;
+
+GRANT SELECT on salgrade to role_clerk;
+
+
+how to assign: 
+
+GRANT role_clerk to user1
+
+GRANT role_admin to user2;
+
+now change over to USER1
+
+conn user1/user1 
+
+
+user is going to try and insert into table: 
+
+INSERT INTO scott.loc values (1 'test loc'); 
+
+ERROR at line 1: 
+INSUFFICIENT PRIVILEDGES 
+
+
+LETS add ito emp table 
+
+INSERT INTO scott.emp (empno, ename, deptno) VALUES (1002, 'Test1002',10); 
+
+1 row created 
+
+can VIEW OR SELECT to scott.dept:
+
+CANNOT INSERT INTO DEPT table.
+
+Can insert into scott.l 
+
+IN REAL LIFE IT IS NOT IDEAL TO GRANT ROLES TO INDIVIDUAL USERS, BUT GRANT THEM IN GROUPS 
