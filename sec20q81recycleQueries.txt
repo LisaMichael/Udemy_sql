@@ -1,0 +1,92 @@
+
+so before moving forward in this lesson, I want to fix recycle and flashback. 
+
+Here , I am trying to set my container to pdb ... i'm in CDB .. something like that ... I need to switch. i know that
+
+alter session set container=orclpdb;
+
+output: 
+
+SQL> alter session set container=orclpdb;
+
+Error starting at line : 1 in command -
+alter session set container=orclpdb
+Error report -
+ORA-65011: Pluggable database ORCLPDB does not exist.
+
+https://docs.oracle.com/error-help/db/ora-65011/65011. 00000 -  "Pluggable database %s does not exist."
+*Cause:    User attempted to specify a pluggable database
+           that does not exist.
+*Action:   Check DBA_PDBS to see if it exists.
+
+
+
+Lets check the DBA_PDBS table 
+
+
+SELECT * FROM DBA_PDBS
+
+READY ??? 
+
+3	XEPDB1	2125387261	2125387261	5245CF88054C4225ABB643FB13DA07F2	NORMAL	2803199	352321536	LOGGING	NO	NO	NO	NO	NO		NO	3		NO	3080416227	2802130	2	24-APR-25	NONE		NO			MANUAL						
+2	PDB$SEED	1523023653	1523023653	72C90E94D3DA469DA9BC756BE9033E84	NORMAL	2754880	352321536	LOGGING	NO	NO	NO	NO	NO		NO	2	1	NO	2965543281	2748314	2	24-APR-25	NONE		NO			MANUAL						
+
+
+The container name I need is: XEPDB1 ... i'm gonna switch to that container ...
+
+alter session set container=XEPDB1;
+
+SQL> alter session set container=XEPDB1;
+
+Session altered.
+
+ CREATE TABLE Country
+(
+country_id		NUMBER(2),
+country_cd      VARCHAR2(6),
+country_desc	VARCHAR2(20)	
+);
+
+
+Table COUNTRY created.
+
+--Insert data into Country table
+INSERT INTO Country VALUES (1,'ARG','Argentina');
+INSERT INTO Country VALUES (2,'BRG','Brazil');
+INSERT INTO Country VALUES (3,'GER','Germany');
+INSERT INTO Country VALUES (4,'ITA','Italy');
+INSERT INTO Country VALUES (5,'GHA','Ghana');
+
+
+SQL> select * from country
+
+COUNTRY_ID COUNTR COUNTRY_DESC        
+---------- ------ --------------------
+         1 ARG    Argentina           
+         2 BRG    Brazil              
+         3 GER    Germany             
+         4 ITA    Italy               
+         5 GHA    Ghana  
+		 
+lets drop the table 
+
+
+DROP TABLE country;
+
+Table COUNTRY dropped.
+
+NOW ... lets try to restore it ..... or view that user_recyclebin table. 
+
+SELECT * FROM user_recyclebin;
+
+SQL> SELECT * FROM user_recyclebin;
+no rows selected
+
+SQL> show USER
+USER is "SYSTEM"
+SQL> SELECT pdb_name FROM dba_pdbs ORDER BY pdb_id
+  2  /
+
+PDB_NAME                                                                                                                        
+--------------------------------------------------------------------------------------------------------------------------------
+XEPDB1
