@@ -1,0 +1,270 @@
+Flashback Table: 
+
+similar functionality is the recycle bin in windows 
+
+what is flashback table in Oracle: 
+
+
+
+
+table gets dropped (by mistake!) 
+
+SET RECYCLEBIN = ON
+
+EMP 
+
+empno 			ename		deptno
+7782		CLARK			10
+7839		KING			10
+7934		MILLER			10
+
+
+
+syntax: 
+--How to restore the table from recyclebin
+FLASHBACK TABLE Test100 TO BEFORE DROP;
+
+
+											EMP 
+drop table emp; 							FLASHBACK emp BEFORE TO DROP;
+
+
+Flashback Table 
+
+If the below parameter is RECYCLEBIN = ON , flashback table will work.
+
+When you drop a table, the database does not immediately remove the space associated with the table.
+It rename the taable and details are kept in a data ditionary called "RECYCLEBIN"
+
+You restore the table using the FLASHBACK function (query? )
+
+In this exercise, we are using a table called Country. 
+
+Lets see whats in the table: 
+
+SELECT * FROM country
+
+output: 
+
+SQL> SELECT * FROM country
+
+COUNTRY_ID COUNTR COUNTRY_DESC        
+---------- ------ --------------------
+         1 ARG    Argentina           
+         2 BRG    Brazil              
+         3 GER    Germany             
+         4 ITA    Italy               
+         5 GHA    Ghana               
+         1 ARG    Argentina           
+         2 BRG    Brazil              
+         3 GER    Germany             
+         4 ITA    Italy               
+         5 GHA    Ghana               
+         1 ARG    Argentina           
+
+COUNTRY_ID COUNTR COUNTRY_DESC        
+---------- ------ --------------------
+         2 BRG    Brazil              
+         3 GER    Germany             
+         4 ITA    Italy               
+         5 GHA    Ghana               
+         1 ARG    Argentina           
+         2 BRG    Brazil              
+         3 GER    Germany             
+         4 ITA    Italy               
+         5 GHA    Ghana               
+         1 ARG    Argentina           
+         2 BRG    Brazil              
+
+COUNTRY_ID COUNTR COUNTRY_DESC        
+---------- ------ --------------------
+         3 GER    Germany             
+         4 ITA    Italy               
+         5 GHA    Ghana               
+         1 ARG    Argentina           
+         2 BRG    Brazil              
+         3 GER    Germany             
+         4 ITA    Italy               
+         5 GHA    Ghana               
+         1 ARG    Argentina           
+         2 BRG    Brazil              
+         3 GER    Germany             
+
+COUNTRY_ID COUNTR COUNTRY_DESC        
+---------- ------ --------------------
+         4 ITA    Italy               
+         5 GHA    Ghana               
+         1 ARG    Argentina           
+         2 BRG    Brazil              
+         3 GER    Germany             
+         4 ITA    Italy               
+         5 GHA    Ghana               
+         1 ARG    Argentina           
+         2 BRG    Brazil              
+         3 GER    Germany             
+         4 ITA    Italy               
+
+COUNTRY_ID COUNTR COUNTRY_DESC        
+---------- ------ --------------------
+         5 GHA    Ghana               
+         1 ARG    Argentina           
+         2 BRG    Brazil              
+         3 GER    Germany             
+         4 ITA    Italy               
+         5 GHA    Ghana               
+
+50 rows selected. 
+
+
+Lets drop the table and then try to query from it. 
+
+DROP TABLE country
+
+Table COUNTRY dropped.
+
+SELECT * FROM country
+
+Error at Command Line : 1 Column : 15
+Error report -
+SQL Error: ORA-00942: table or view does not exist
+
+https://docs.oracle.com/error-help/db/ora-00942/00942. 00000 -  "table or view%s does not exist"
+*Cause:    The specified table or view did not exist, or a synonym
+
+The table still exists in the recycle bin, so lets retrieve it. 
+
+SELECT * FROM user_recyclebin;
+
+no rows selected
+
+
+hmmm ... instructor is not getting that response. 
+
+
+hahah ha ... i know ... i don't have RECYCLEBIN = ON enabled. 
+
+ok .... off to restore that table ... 
+
+ -- found command: 
+ 
+SHOW PARAMETER RECYCLEBIN
+
+SQL> SHOW PARAMETER RECYCLEBIN
+NAME       TYPE   VALUE 
+---------- ------ ----- 
+recyclebin string on    
+
+ok. guess i didnt drop the table. ...
+
+lets drop the table country
+hmmm ... i did drop it ... 
+
+SELECT *FROM user_recyclebin
+no rows selected
+
+ --- off to stack overflow lol .... maybe its a 21c syntaxical error ... brb. . . .
+ 
+ 
+ ok .... table didn't exist so i created a new one: 
+ 
+ CREATE TABLE Country
+(
+country_id		NUMBER(2),
+country_cd      VARCHAR2(6),
+country_desc	VARCHAR2(20)	
+);
+
+
+Table COUNTRY created.
+
+--Insert data into Country table
+INSERT INTO Country VALUES (1,'ARG','Argentina');
+INSERT INTO Country VALUES (2,'BRG','Brazil');
+INSERT INTO Country VALUES (3,'GER','Germany');
+INSERT INTO Country VALUES (4,'ITA','Italy');
+INSERT INTO Country VALUES (5,'GHA','Ghana');
+
+
+SQL> --Insert data into Country table
+SQL> INSERT INTO Country VALUES (1,'ARG','Argentina');
+
+1 row inserted.
+
+SQL> INSERT INTO Country VALUES (2,'BRG','Brazil');
+
+1 row inserted.
+
+SQL> INSERT INTO Country VALUES (3,'GER','Germany');
+
+1 row inserted.
+
+SQL> INSERT INTO Country VALUES (4,'ITA','Italy');
+
+1 row inserted.
+
+SQL> INSERT INTO Country VALUES (5,'GHA','Ghana');
+
+1 row inserted.
+
+
+
+-- lets try this again ... 
+.. it better work ...
+
+DROP TABLE country
+
+Table COUNTRY dropped.
+
+SELECT *FROM user_recyclebin
+
+SELECT * FROM user_recyclebin
+
+
+FLASHBACK TABLE county TO BEFORE DROP;
+
+
+SQL> FLASHBACK TABLE county TO BEFORE DROP;
+
+Error starting at line : 12 in command -
+FLASHBACK TABLE county TO BEFORE DROP
+Error report -
+ORA-38305: object not in RECYCLE BIN
+
+
+There is a purge command and maybe i have auto purge enabled .
+
+DROP TABLE COUNTRY PURGE;
+
+Table COUNTRY dropped.
+
+LETS try the fruit table: 
+
+SELECT * TABLE fruit
+
+
+SQL> SELECT * FROM user_recyclebin;
+no rows selected
+
+PURGE Recyclebin;
+
+
+Recyclebin purged.
+
+SELECT * FROM user_recyclebin;
+
+SQL> SELECT * FROM user_recyclebin;
+no rows selected
+
+--- IT SHOULD RESPOND WITH: NO DATA FOUND 
+
+
+FLASHBACK TABLE: 
+
+- how to see the dropped table details 
+SELECT * FROM user_recyclebin;
+- how to restore the table from recyclebin
+FLASHBACK TABLE Test100 TO BEFORE DROP =;'
+- PURGE TABLE so that it will not kkep the table in recyclebin. 
+DROP table <table name>PURGE;
+- To purge the recyclebin so that all the dropped objects will be removed. 
+PURGE Recyclebin;
